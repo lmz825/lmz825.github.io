@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <section>
+    <div>aaaaa</div>
+  </section>
+  <style>
+    section {
+      background-color: red;
+      min-width: 600px;
+    }
+
+    section div {
+      width: 600px;
+      margin: auto;
+    }
+  </style>
+  <main>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae sapiente voluptas officiis, praesentium, nemo
+      iure cumque nihil, facere hic asperiores dicta commodi magni, voluptates eaque esse atque nesciunt! Cupiditate,
+      modi.</p>
+    <div></div>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos modi accusantium deleniti consequuntur, enim
+      nulla voluptatum qui ducimus esse rem eius eligendi consequatur sint. Sunt ut, est iusto neque numquam.
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam animi perspiciatis eos, molestias
+      provident, quae ullam! Obcaecati suscipit optio labore iusto veniam facere, amet officiis, eveniet voluptatibus
+      molestiae, dignissimos dolor!
+    </p>
+  </main>
+  <div></div>
+  <style>
+    main {
+      border: 2px solid black;
+      max-width: 600px;
+      margin: auto;
+      margin-top: 20px;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    main div {
+      background-color: violet;
+      height: 50px;
+    }
+
+    main div:hover {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+
+    main p:last-child {
+      height: 4em;
+      overflow: auto;
+    }
+
+    body>div {
+      border: 50px solid orange;
+      width: 0;
+      margin: auto;
+      border-color: transparent transparent orange transparent;
+    }
+
+    body>div+body>div {
+      border-color: orange transparent transparent transparent;
+    }
+  </style>
+</body>
+
+</html>
