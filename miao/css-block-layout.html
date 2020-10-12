@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <p class="p1">hello world 请调整浏览器窗口大小查看效果</p>
+  </header>
+
+  <p class="p2">页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+    页面主体 宽度600px</p>
+  <div>
+    <ul class="a">
+      <li>宽180高40(包含边框)</li>
+      <li>水平间隙30px</li>
+      <li>垂直间隙15px</li>
+      <li>边框宽度3px</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+    </ul>
+  </div>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .p1 {
+      width: 600px;
+      padding: 0 calc(50%-300px);
+      background-color: black;
+      color: white;
+    }
+
+    header,
+    .p2 {
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .a {
+      list-style: none;
+      padding: 0;
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .a li {
+      box-sizing: border-box;
+      width: 180px;
+      height: 40px;
+      border: 3px solid black;
+      margin-bottom: 15px;
+      text-align: center;
+      line-height: 34px;
+      background-color: pink;
+    }
+
+    .a li:hover {
+      background-color: red;
+    }
+
+    .a li:nth-child(n+5) {
+      margin-left: 210px;
+    }
+
+    .a li:nth-child(n+9) {
+      margin-left: 420px;
+    }
+
+    .a li:nth-child(4n+5) {
+      margin-top: -220px;
+    }
+  </style>
+  <ul class="links">
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+  </ul>
+  <style>
+    .links {
+      list-style: none;
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+
+    }
+
+    .links li {
+      border-bottom: 1px dotted black;
+    }
+
+    .links li:last-child {
+      border-bottom: none;
+    }
+  </style>
+  <div>
+    <ul class="c">
+      <li>宽180高40(包含边框)</li>
+      <li>水平间隙30px</li>
+      <li>垂直间隙15px</li>
+      <li>边框宽度3px</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+      <li>产品</li>
+    </ul>
+  </div>
+
+  <style>
+    .c {
+      padding: 0;
+      list-style: none;
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0;
+    }
+
+    .c li {
+      font-size: initial;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 180px;
+      height: 40px;
+      border: 3px solid;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 34px;
+      margin-bottom: 15px;
+    }
+
+    .c li:nth-child(3n+1) {
+      margin-right: 30px;
+    }
+
+    .c li:nth-child(3n+2) {
+      margin-right: 30px;
+    }
+
+    .c li:nth-last-child(-n+3) {
+      margin-bottom: 0;
+    }
+  </style>
+
+</body>
+
+</html>
