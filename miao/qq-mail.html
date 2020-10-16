@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+
+<body>
+
+  <!--  行内块状-->
+  <div>
+    <header></header>
+    <aside></aside>
+    <main>ARLINGTON, Texas — After 16 innings, after a listless loss and after another one possibly ahead, the Dodgers’
+      offense finally swung to life in the seventh inning of Game 2 of the National League Championship Series against
+      the
+      Atlanta Braves on Tuesday.
+      The Dodgers had compiled just two hits in the first six innings. The offense they were so confident would not fail
+      them entering the series was failing them again. Then, with Los Angeles trailing 7-0, Corey Seager cracked a
+      three-run home run into the Braves’ bullpen beyond the wall in left-center field in the seventh inning.
+
+      Two innings later, with the Dodgers down 8-3, Seager lined an RBI double. Two batters after, with the Dodgers down
+      to their last out, Max Muncy smashed a two-run home run. Next, Will Smith reached on an error. Cody Bellinger
+      lined
+      an RBI triple to right against Braves closer Mark Melancon, cutting the deficit to one. Suddenly, the Braves,
+      riding
+      a high just moments earlier, were reeling. The Dodgers, late-game offensive specialists, were poised to overcome
+      their bullpen’s second collapse in 24 hours.
+
+      “This team’s got a lot of fight,” Seager said. “We’ve done it all year.”
+
+      It was up to AJ Pollock, with the tying run 90 feet away, to keep the game alive — or, wondrously, win it. But he
+      grounded out to third to conclude the 8-7 defeat in front of a limited crowd of 10,624 at Globe Life Park.</main>
+    </main>
+  </div>
+
+  <style>
+    body {
+      margin: 0;
+    }
+
+    html,
+    body,
+    div {
+      height: 100%;
+    }
+
+    header,
+    aside,
+    main {
+      display: inline-block;
+      background-color: rosybrown;
+    }
+
+    header {
+
+      height: 70px;
+      width: 100%;
+      border-bottom: 2px solid red;
+      vertical-align: top;
+    }
+
+    aside {
+      height: calc(100% - 72px);
+      width: 170px;
+      border-right: 2px red solid;
+      vertical-align: top;
+    }
+
+    main {
+      height: calc(100% - 72px);
+      width: calc(100 - 172px);
+      vertical-align: top;
+    }
+  </style>
+  <!-- 块状元素 -->
+  <header></header>
+  <aside></aside>
+  <style>
+    body,
+    html {
+      margin: 0;
+      height: 100%;
+    }
+
+    header {
+      height: 70px;
+      border-bottom: 2px red solid;
+    }
+
+    aside {
+      width: 170px;
+      border-right: 2px solid red;
+      height: calc(100% - 72px);
+    }
+
+    main {
+      height: calc(100% - 72px);
+      margin-left: calc(172px);
+      margin-top: calc(-100vh + 72px);
+      overflow: auto;
+    }
+  </style>
+
+</body>
+
+</html>

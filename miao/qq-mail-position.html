@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 固定定位 -->
+  <header></header>
+  <aside></aside>
+  <main>ARLINGTON, Texas — After 16 innings, after a listless loss and after another one possibly ahead, the Dodgers’
+    offense finally swung to life in the seventh inning of Game 2 of the National League Championship Series against the
+    Atlanta Braves on Tuesday.
+    The Dodgers had compiled just two hits in the first six innings. The offense they were so confident would not fail
+    them entering the series was failing them again. Then, with Los Angeles trailing 7-0, Corey Seager cracked a
+    three-run home run into the Braves’ bullpen beyond the wall in left-center field in the seventh inning.
+
+    Two innings later, with the Dodgers down 8-3, Seager lined an RBI double. Two batters after, with the Dodgers down
+    to their last out, Max Muncy smashed a two-run home run. Next, Will Smith reached on an error. Cody Bellinger lined
+    an RBI triple to right against Braves closer Mark Melancon, cutting the deficit to one. Suddenly, the Braves, riding
+    a high just moments earlier, were reeling. The Dodgers, late-game offensive specialists, were poised to overcome
+    their bullpen’s second collapse in 24 hours.
+
+    “This team’s got a lot of fight,” Seager said. “We’ve done it all year.”
+
+    It was up to AJ Pollock, with the tying run 90 feet away, to keep the game alive — or, wondrously, win it. But he
+    grounded out to third to conclude the 8-7 defeat in front of a limited crowd of 10,624 at Globe Life Park.</main>
+  <style>
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      border-bottom: 2px red solid;
+    }
+
+    aside {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      top: 72px;
+      width: 190px;
+      border-right: 2px solid red;
+    }
+
+    main {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      top: 72px;
+      left: 192px;
+      overflow: auto;
+    }
+  </style>
+  <!--绝对定位  -->
+  <div class="rap">
+    <header></header>
+    <aside></aside>
+    <main></main>
+  </div>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .rap {
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+
+    header {
+      border-bottom: 2px solid red;
+      height: 70px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    aside {
+      position: absolute;
+      left: 0;
+      width: 190px;
+      top: 72px;
+      height: calc(100% - 72);
+      border-right: 2px solid red;
+    }
+
+    main {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: calc(100% - 72);
+      width: calc(100% - 192);
+    }
+  </style>
+</body>
+
+</html>

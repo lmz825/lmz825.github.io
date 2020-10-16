@@ -70,31 +70,32 @@
     <a href="https://www.jd.com/">jd</a>
     <a href="https://www.lksdjfwief.com/">你肯定没访问过我</a>
     <a href="mailto:a@b.com">给我发邮件</a>
-    <a href="mailto:a@b.com">给我发邮件</a>
+    <a href="mailTo:a@b.com">给我发邮件</a>
     <a href="tel:12345678">给我打电话</a>
     <a href="tel:12345678">给我打电话</a>
-    <a href="aaa.pdf">下载pdf</a>
+    <a href="aaa.Pdf">下载pdf</a>
     <a href="aaa.pdf">下载pdf</a>
   </div>
   <style>
-    :visited {
+    .a.c+div a:visited {
       color: orange;
     }
 
-    :link {
+    .a.c+div a:link {
       color: pink;
+
     }
 
 
-    [href^="mailto:"] {
+    .a.c+div a[href^="mailto:"i] {
       color: blue;
     }
 
-    [href^="tel:"] {
+    .a.c+div a[href^="tel:"] {
       color: yellow;
     }
 
-    [href$="pdf"] {
+    .a.c+div a[href$="pdf"i] {
       font-size: 30px;
     }
   </style>
@@ -126,7 +127,7 @@
       color: red;
     }
 
-    .a>ul>li:nth-child(n+4):nth-child(-n+7):nth-child(12) {
+    .a>ul>li:nth-child(n+4):nth-child(-n+7) {
       color: red;
     }
   </style>
@@ -361,6 +362,10 @@
       color: red;
     }
   </style>
+</body>
+
+</html>
+<p>a specially prepared, light-reflecting surface on which motion pictures, slides, etc., may be projected.</p>
 </body>
 
 </html>
