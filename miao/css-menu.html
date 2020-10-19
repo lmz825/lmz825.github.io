@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul>
+    <li>
+      文件
+      <ul>
+        <li>
+          新建
+          <ul>
+            <li>文本文档</li>
+            <li>Markdown</li>
+            <li>源文件</li>
+          </ul>
+        </li>
+        <li>新窗口</li>
+        <li>打开
+          <ul>
+            <li>上次文件</li>
+            <li>历史文件</li>
+          </ul>
+        </li>
+        <li>保存</li>
+        <li>
+          打印
+          <ul>
+            <li>打印pdf</li>
+            <li>
+              打印图片
+              <ul>
+                <li>彩色</li>
+                <li>黑白</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>编辑
+      <ul>
+        <li>笔记</li>
+        <li>文献
+          <ul>
+            <li>历史</li>
+            <li>近代</li>
+            <li>上古</li>
+          </ul>
+        </li>
+        <li>小说</li>
+      </ul>
+    </li>
+    <li>格式</li>
+    <li>查看</li>
+  </ul>
+  <style>
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+    }
+
+    ul ul {
+      position: absolute;
+      left: 0;
+      top: 100%;
+    }
+
+    ul ul ul {
+      left: 100%;
+      top: 0;
+    }
+
+    li ul {
+      display: none;
+    }
+
+    li:hover>ul {
+      display: block;
+    }
+
+    li:hover {
+      background-color: gold;
+    }
+
+    li {
+      white-space: nowrap;
+      position: relative;
+      font-size: 16px;
+      padding: 2px 8px;
+      display: inline-block;
+    }
+
+    li li {
+      display: block;
+    }
+    }
+  </style>
+
+</body>
+
+</html>
