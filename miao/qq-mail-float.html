@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <section>
+    <header>111</header>
+    <aside>222</aside>
+    <main>333</main>
+  </section>
+  <style>
+    * {
+      background-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 1px red;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+    }
+
+    section {
+      height: 100%;
+    }
+
+    header {
+      float: left;
+      width: 100%;
+      height: 100px;
+    }
+
+    aside {
+      float: left;
+      height: calc(100% - 100px);
+      width: 100px;
+    }
+
+    main {
+      float: right;
+      height: calc(100% - 100px);
+      width: calc(100% - 100px)
+    }
+  </style>
+</body>
+
+</html>
