@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    /* {
+  background-color: rgba(0,0,0,0.1);
+} */
+    body {
+      padding-top: 40px;
+    }
+
+    button {
+      display: block;
+      margin: 55px auto;
+      padding: 0 39px;
+      font-size: 54px;
+      background-color: #B71212;
+      color: white;
+      border: none;
+      border-radius: .15em;
+    }
+
+    [aria-label] {
+      position: relative;
+    }
+
+    [aria-label]:hover::before,
+    [aria-label]:hover::after {
+      opacity: 1;
+    }
+
+    /* balloon定位!!!!!! */
+    [aria-label]::before {
+      opacity: 0;
+      box-sizing: border-box;
+      transition: .6s;
+      content: attr(aria-label);
+      position: absolute;
+      background-color: black;
+      padding: 12px 15px;
+      font-size: 16px;
+      border-radius: 3px;
+    }
+
+    /* 箭头定位 !!!!!!*/
+    [aria-label]::after {
+      opacity: 0;
+      box-sizing: border-box;
+      transition: .6s;
+      position: absolute;
+      content: '';
+      border: 5px solid transparent;
+      width: 0;
+      height: 0;
+      z-index: 100;
+    }
+
+    [aria-label]::before {
+      left: 50%;
+      bottom: 100%;
+      transform: translate(-50%) translatey(-5px);
+    }
+
+    [aria-label]::after {
+      border-top-color: black;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%) translatey(-5px);
+    }
+
+    [aria-label]:hover::after,
+    [aria-label]:hover::before {
+      transform: translate(-50%) translatey(-10px);
+    }
+
+    [data-balloon-pos="down"]::before {
+      left: 50%;
+      top: 100%;
+      /* 避免定位被之前的选择器覆盖 */
+      right: auto;
+      bottom: auto;
+      transform: translate(-50%) translatey(0px);
+    }
+
+    [data-balloon-pos="down"]::after {
+      border-color: transparent;
+      border-bottom-color: black;
+      left: 50%;
+      bottom: 0;
+      right: auto;
+      top: auto;
+      transform: translate(-50%) translatey(0px);
+    }
+
+    [data-balloon-pos="down"]:hover::after,
+    [data-balloon-pos="down"]:hover::before {
+      transform: translate(-50%) translatey(5px);
+    }
+
+    [data-balloon-pos="left"]::before {
+      top: 50%;
+      right: 100%;
+      bottom: auto;
+      left: auto;
+      transform: translatey(-50%) translatex(-5px);
+    }
+
+    [data-balloon-pos="left"]::after {
+      border-color: transparent;
+      border-left-color: black;
+      top: 50%;
+      left: 0;
+      bottom: auto;
+      right: auto;
+      transform: translatey(-50%) translatex(-5px);
+    }
+
+    [data-balloon-pos="left"]:hover::after,
+    [data-balloon-pos="left"]:hover::before {
+      transform: translatey(-50%) translatex(-10px);
+    }
+
+    [data-balloon-pos="right"]::before {
+      top: 50%;
+      left: 100%;
+      right: auto;
+      bottom: auto;
+      transform: translatey(-50%) translatex(5px);
+    }
+
+    [data-balloon-pos="right"]::after {
+      border-color: transparent;
+      border-right-color: black;
+      top: 50%;
+      right: 0;
+      left: auto;
+      bottom: auto;
+      transform: translatey(-50%) translatex(5px);
+    }
+
+    [data-balloon-pos="right"]:hover::after,
+    [data-balloon-pos="right"]:hover::before {
+      transform: translatey(-50%) translatex(10px);
+    }
+  </style>
+  <title>Document</title>
+</head>
+
+<body>
+
+  <body>
+    <button aria-label="shy pentakill">shy</button>
+    <button aria-label="shy pentakill" data-balloon-pos="down">shy</button>
+    <button aria-label="shy pentakill" data-balloon-pos="left">shy</button>
+    <button aria-label="shy pentakill" data-balloon-pos="right" data-balloon-visible>shy</button>
+  </body>
+</body>
+
+</html>
