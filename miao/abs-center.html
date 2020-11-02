@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<!-- 行内布局 -->
+
+<body>
+  <div>
+    <span>行内布局</span>
+  </div>
+  <style>
+    div {
+      width: 300px;
+      height: 300px;
+      line-height: 300px;
+      text-align: center;
+      background-color: blue;
+    }
+
+    span {
+      background-color: gold;
+      line-height: normal;
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      vertical-align: middle;
+    }
+  </style>
+</body>
+<!-- 定位transform -->
+<div class="box">
+  <div class="content"></div>
+</div>
+<style>
+  .box {
+    background-color: #FF8C00;
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+
+  .content {
+    background-color: #F00;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+<!-- 表格！！！！！！ -->
+<div class="parent">
+  <div class="child"></div>
+</div>
+<style>
+  /*父元素*/
+  .parent {
+    width: 300px;
+    height: 300px;
+    background-color: green;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  /*子元素*/
+  .child {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    margin: auto;
+  }
+</style>
+<!-- flex -->
+<div class="box1">
+  <div class="content1">
+  </div>
+</div>
+<style>
+  .box1 {
+    background-color: #FF8C00;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content1 {
+    background-color: #F00;
+    width: 100px;
+    height: 100px;
+  }
+</style>
+<!-- 定位 -->
+<div class="box2">
+  <div class="content2">
+  </div>
+</div>
+<style>
+  .box2 {
+    background-color: pink;
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+
+  .content2 {
+    background-color: slateblue;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -50px 0 0 -50px;
+  }
+</style>
+
+</html>
