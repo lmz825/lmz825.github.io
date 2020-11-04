@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="cube">
+      <div class="plane-front">前面</div>
+      <div class="plane-back">后面</div>
+      <div class="plane-right">右面</div>
+      <div class="plane-left">左面</div>
+      <div class="plane-top">上面</div>
+      <div class="plane-bottom">下面</div>
+    </div>
+    <style>
+      html {
+        background-color: blueviolet;
+        opacity: 0.8;
+        height: 100%;
+      }
+
+      .container {
+        perspective: 1000px;
+        margin-top: 200px;
+      }
+
+      .cube {
+        height: 200px;
+        width: 200px;
+        position: relative;
+        margin: auto;
+        transform-style: preserve-3d;
+        animation: rotate 15s infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotateY(0deg) rotateX(0deg);
+        }
+
+        to {
+          transform: rotateY(360deg) rotateX(360deg);
+        }
+      }
+
+      .cube>div {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+
+        color: aqua;
+        opacity: 0.9;
+        background: bisque;
+        text-align: center;
+        line-height: 200px;
+        font-size: 30px;
+        border: 1px solid pink;
+      }
+
+      .plane-front {
+        transform: translateZ(100px);
+
+      }
+
+      .plane-back {
+        transform: translateZ(-100px);
+      }
+
+      .plane-right {
+        transform: rotateY(90deg) translateZ(100px);
+      }
+
+      .plane-left {
+        transform: rotateY(90deg) translateZ(-100px);
+      }
+
+      .plane-top {
+        transform: rotateX(90deg) translateZ(100px);
+      }
+
+      .plane-bottom {
+        transform: rotateX(90deg) translateZ(-100px);
+      }
+
+      .cube:hover.plane-front {
+        transform: translateZ(200px);
+      }
+
+      .cube:hover.plane-back {
+        transform: translateZ(-200px);
+      }
+
+      .cube:hover.plane-right {
+        transform: rotateY(90deg) translateZ(200px);
+      }
+
+      .cube:hover.plane-left {
+        transform: rotateY(90deg) translateZ(-200px);
+      }
+
+      .cube:hover.plane-top {
+        transform: rotateX(90deg) translateZ(200px);
+      }
+
+      .cube:hover.plane-bottom {
+        transform: rotateX(90deg) translateZ(-200px);
+      }
+    </style>
+</body>
+
+</html>
