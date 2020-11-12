@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>画图</title>
+  <style>
+    canvas {
+      border: 2px solid #f0f;
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas width="400" height="300"></canvas>
+</body>
+<script>
+  var canvas = document.querySelector('canvas')
+  canvas.style.imageRendering = 'pixelated'
+  var ctx = canvas.getContext('2d')
+
+  function dot(x, y, color = 'black') {
+    x = x | 0
+    y = y | 0
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, 1, 1)
+  }
+
+  function line(x1, y1, x2, y2) {
+    ctx.strokeStyle = 'black'
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.stroke()
+  }
+  /**
+   * YOUR TASK
+画图的题：
+画一条实线
+画一条一个实点一个空点的虚线
+画一条两个实点两个空点的虚线
+画一条三个实点两个空点的虚线
+画一条45度的斜线
+画一条30度的斜线（选做）
+在四个角画分别画一条45度的斜线以让画面看起来像一个相框
+画一条跨越画布左上角和右下角的对角线
+画一个空心矩形
+画一个实心矩形
+画一个rgb色彩空间的某一面
+画一个空心的圆
+画一个实心的圆
+画一个大小合适的sin(x)的图像
+   */
+</script>
+<script>
+  // YOUR CODE GOES BELOW
+  //   画一条实线
+  for (var x = 0; x <= 100; x++) {
+    dot(x, 30, 'purple')
+  }
+  // 画一条一个实点一个空点的虚线
+  for (var x = 0; x <= 100; x += 2) {
+    dot(x, 50, 'green')
+  }
+  //画一条两个实点两个空点的虚线
+  for (var x = 0; x <= 100; x += 4) {
+    dot(x, 70, 'red')
+    dot(x + 1, 30, 'red')
+
+  }
+  //画一条三个实点两个空点的虚线
+  for (var x = 0; x <= 100; x += 5) {
+    dot(x, 60, 'red')
+    dot(x + 1, 60, 'red')
+    dot(x + 2, 60, 'red')
+
+  }
+  //画一条45度的斜线
+  for (var x = 0; x <= 100; x++) {
+    dot(x, 50 + x, 'red')
+  }
+  //画一条30度的斜线
+  for (var x = 0; x <= 100; x++) {
+    dot(x, Math.sqrt(3) * x, 'red')
+  }
+  //在四个角画分别画一条45度的斜线以让画面看起来像一个相框
+  for (var y = 0; y <= 10; y++) {
+    dot(10 - y, y, 'red')
+  }
+  for (var y = 0; y <= 10; y++) {
+    dot(390 + y, y, 'red')
+  }
+  for (var y = 390; y <= 400; y++) {
+    dot(y - 390, y, 'red')
+  }
+  for (var y = 390; y <= 400; y++) {
+    dot(790 - y, y, 'red')
+  }
+
+  // 画一条跨越画布左上角和右下角的对角线
+  for (var y = 0; y <= 400; y++) {
+    dot(y, y, 'red')
+  }
+  //画一个空心矩形 
+  for (var y = 190; y <= 290; y++) {
+    dot(10, y, 'red')
+  }
+  for (var x = 10; x <= 110; x++) {
+    dot(x, 190, 'red')
+  }
+  for (var y = 190; y <= 290; y++) {
+    dot(110, y, 'red')
+  }
+  for (var x = 10; x <= 110; x++) {
+    dot(x, 290, 'red')
+  }
+  //画一个实心矩形 
+  for (var y = 290; y <= 390; y++) {
+    for (var x = 120; x <= 220; x++) {
+      dot(x, y, 'red')
+    }
+  }
+  // 画一个rgb色彩空间的某一面
+  for (var x = 120; x <= 375; x++) {
+    for (var y = 0; y <= 255; y++) {
+      var a = x - 120
+      var b = y
+      var str1 = a.toString(16)
+      var str2 = b.toString(16)
+      if (a <= 15 && b > 15) {
+        var str = "#ff0" + str1 + str2
+      }
+      else if (a > 15 && b <= 15) {
+        var str = "#ff" + str1 + '0' + str2
+      }
+      else if (a <= 15 && b <= 15) {
+        var str = "#ff" + '0' + str1 + '0' + str2
+      } else {
+        var str = "#ff" + str1 + str2
+      }
+      dot(x, y, str)
+    }
+  }
+  //画一个空心圆 
+  for (var x = 100; x <= 210; x++) {
+    var y = 240 + Math.sqrt((210 - x) * (x - 100))
+    var y1 = 240 - Math.sqrt((210 - x) * (x - 100))
+    dot(x, y, 'pink')
+    dot(x, y1, 'pink')
+  }
+  //画一个实心圆
+  for (var x = 150; x <= 250; x++) {
+    var y1 = parseInt(200 + Math.sqrt((250 - x) * (x - 150)))
+    var y2 = parseInt(200 - Math.sqrt((250 - x) * (x - 150)))
+    for (var y = y2; y <= y1; y++) {
+      dot(x, y, 'red')
+    }
+  }
+  // 画一个大小合适的sin(x)的图像
+  for (var x = 0; x <= 400; x++) {//x范围的变化
+    var y = 200 + (Math.sin(3 * x / 180 * Math.PI)) * 50
+    dot(x, y, 'black')
+  }
+</script>
+
+</html>
+
+</html>
