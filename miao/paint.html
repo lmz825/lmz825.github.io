@@ -66,7 +66,7 @@
   //画一条两个实点两个空点的虚线
   for (var x = 0; x <= 100; x += 4) {
     dot(x, 70, 'red')
-    dot(x + 1, 30, 'red')
+    dot(x + 1, 70, 'red')
 
   }
   //画一条三个实点两个空点的虚线
@@ -91,11 +91,11 @@
   for (var y = 0; y <= 10; y++) {
     dot(390 + y, y, 'red')
   }
-  for (var y = 390; y <= 400; y++) {
-    dot(y - 390, y, 'red')
+  for (var y = 290; y <= 300; y++) {
+    dot(y - 290, y, 'red')
   }
-  for (var y = 390; y <= 400; y++) {
-    dot(790 - y, y, 'red')
+  for (var y = 290; y <= 300; y++) {
+    dot(690 - y, y, 'red')
   }
 
   // 画一条跨越画布左上角和右下角的对角线
@@ -122,24 +122,11 @@
     }
   }
   // 画一个rgb色彩空间的某一面
-  for (var x = 120; x <= 375; x++) {
+  for (var x = 0; x <= 255; x++) {
     for (var y = 0; y <= 255; y++) {
-      var a = x - 120
-      var b = y
-      var str1 = a.toString(16)
-      var str2 = b.toString(16)
-      if (a <= 15 && b > 15) {
-        var str = "#ff0" + str1 + str2
-      }
-      else if (a > 15 && b <= 15) {
-        var str = "#ff" + str1 + '0' + str2
-      }
-      else if (a <= 15 && b <= 15) {
-        var str = "#ff" + '0' + str1 + '0' + str2
-      } else {
-        var str = "#ff" + str1 + str2
-      }
-      dot(x, y, str)
+      var color = 'rgb(' + x + ',' + y + ',0)'
+      console.log(color)
+      dot(x, y, color)
     }
   }
   //画一个空心圆 
@@ -158,9 +145,9 @@
     }
   }
   // 画一个大小合适的sin(x)的图像
-  for (var x = 0; x <= 400; x++) {//x范围的变化
-    var y = 200 + (Math.sin(3 * x / 180 * Math.PI)) * 50
-    dot(x, y, 'black')
+  for (var x = 0; x <= 400; x++) {
+    var y = (Math.sin(x / 20)) * 50
+    dot(x, y + 100, 'black')
   }
 </script>
 
