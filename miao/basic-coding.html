@@ -52,14 +52,8 @@
     console.log((C).toFixed(5))
   </script>
   <script type="norun" id="ch0103/09">
-    var r = Number(prompt(3.0))
-  var PI=3.1415
-    var C = r * 2
-    var s = r * 2 * PI
-    var l = r * r * PI
-    console.log(C.toFixed(4))
-    console.log(s.toFixed(4))
-    console.log(l.toFixed(4))
+    var r = Number(prompt());
+    console.log((2 * r).toFixed(4), (2 * 3.14159 * r).toFixed(4), (3.14159 * r**2).toFixed(4));
   </script>
   <script type="norun" id="ch0103/10">
     var r1 = Number(prompt(1))
@@ -167,14 +161,15 @@
 
   </script>
   <script type="norun" id="ch0104/05">
-    var x = Number(prompt(1000))
-    var y = Number(prompt(100))
-    if (x > y)
+    var x = Number(prompt())
+    var y = Number(prompt())
+    if (x > y) {
       console.log(">")
-    else if (x = y)
+    } else if (x == y) {
       console.log("=")
-    else if (x < y)
-      console.log("<"
+    } else {
+      console.log("<")
+    }
   </script>
   <script type="norun" id="ch0104/06">
     var y = Number(prompt(54))
@@ -201,29 +196,22 @@
 
   </script>
   <script type="norun" id="ch0104/09">
-    var x = Number(prompt(105))
-    if (x % 3 == 0 && x % 5 == 0 && x % 7 == 0)
-      console.log("3 5 7")
-
-    else if (n % 5 == 0 && n % 7 == 0) {
-      console.log(" 5 7")
-    }
-    else if (n % 3 == 0 && n % 7 == 0) {
-      console.log("3  7")
-    }
-    else if (n % 3 == 0 && n % 5 == 0) {
-      console.log("3 5 ")
-    }
-    else if (n % 7 == 0) {
-      console.log(" 7")
-    }
-    else if (n % 5 == 0) {
-      console.log("5 ")
-    }
-    else if (n % 3 == 0) {
-      console.log("3")
-    }
-    else {
+    var n = Number(prompt())
+    if (n % 3 == 0 && n % 5 == 0 && n % 7 == 0) {
+      console.log(3, 5, 7)
+    } else if (n % 3 == 0 && n % 5 == 0) {
+      console.log(3, 5)
+    } else if (n % 3 == 0 && n % 7 == 0) {
+      console.log(3, 7)
+    } else if (n % 5 == 0 && n % 7 == 0) {
+      console.log(5, 7)
+    } else if (n % 3 == 0) {
+      console.log(3)
+    } else if (n % 5 == 0) {
+      console.log(5)
+    } else if (n % 7 == 0) {
+      console.log(7)
+    } else {
       console.log("n")
     }
   </script>
@@ -655,31 +643,29 @@
         n = t
       }
     }
-    console.log("end")
+    console.log("End")
   </script>
   <script type="foo" id="ch0105/22">
-    var money_left = 0//初始零钱是0
-    var total = 0//从妈妈那拿的钱初始化
-    var index = 0//指针用
-    for (var i = 1; i <= 12; i++) {
-      var money_out = prompt()//每个月计划用掉的钱
-      var money_in = 300 + money_left//每个月从妈妈那里拿到的钱
-      if (money_in < money_out) {
-        money_left = money_in
-        continue
-      } else {
-        money_left = money_in - money_out
-        var left = money_left - 100 * parseInt(money_left / 100)
-        total += parseInt(money_left / 100) * 100
-        money_left = left
+    var money = 0
+    var stock = 0
+    var flag = false
+    for (i = 1; i <= 12; i++) {
+      money += 300
+      var budget = parseInt(prompt())
+      if (money < budget) {
+        console.log(-i)
+        flag = true
+        break
       }
-      index++
+      money = money - budget
+      if (money >= 100) {
+        var left = money % 100
+        stock += money - left
+        money = left
+      }
     }
-    if (index == 12) {
-      console.log(total)
-    }
-    else {
-      console.log(-index)
+    if (!flag) {
+      console.log(stock * 1.2 + money)
     }
   </script>
   <script type="foo" id="ch0105/23">
@@ -697,23 +683,40 @@
   console.log(index)
 </script>
   <script type="foo" id="ch0105/24">
-    var time = prompt()
+    var time = Number(prompt())
     var sum = 0
+    var max = 0
     for (var i = 1; i <= time; i++) {
       var shou = prompt()
       var suo = prompt()
-      if (shou >= 90 && shou <= 140 && suo >= 60 && suo <= 90)
+      var isnormal = shou >= 90 && shou <= 140 && suo >= 60 && suo <= 90
+      if (isnormal) {
         sum++
-      else if (shou < 90 || shou > 140 || suo < 60 || suo > 90)
-        sum--
+        if (sum > max) {
+          max = sum
+        }
+      } else {
+        sum = 0
+      }
     }
-
-
-    console.log(sum)
+    console.log(max)
 
   </script>
-  <script xtype="foo" id="ch0105/25">
+  <script type="foo" id="ch0105/25">
 
+    for (i = 1; i <= 999; i++) {
+      var a7 = i % 7
+      var b7 = (i - a7) / 7 % 7
+      var c7 = (i - b7 * 7 - a7) / 7 / 7 % 7
+      var a9 = i % 9
+      var b9 = (i - a9) / 9 % 9
+      var c9 = (i - b9 * 9 - a9) / 9 / 9 % 9
+
+      if (a7 == c9 && c7 == a9 && b7 == b9) {
+        console.log(i, '' + c7 + b7 + a7, '' + c9 + b9 + a9)
+        break
+      }
+    }
   </script>
   <script type="foo" id="ch0105/26">
     var n = prompt()
@@ -742,51 +745,31 @@
   }
 </script>
   <script type="foo" id="ch0105/28">
-  var k = prompt()
-  var a = String(k)
-  b = a.length
-  for(var i = 0 ; i < b; i ++){
-    console.log(a.charAt(b - 1 - i) )
-  }
-</script>
+    var n = Number(prompt())
+    while (n > 0) {
+      var digit = n % 10
+      console.log(digit)
+      n = (n - digit) / 10
+    }
+  </script>
   <script type="foo" id="ch0105/29">
-  var k = parseInt(prompt())
-  var a = String(k)//全局变量
-  var len = a.length//全局变量
-  var str = "" //空字符串
-  var q
-  if(k > 0){
-    if(a.charAt(len - 1) != '0'){
-      for(var i = 0 ; i <= len - 1; i ++){
-        str += a.charAt(len - 1 - i)
-      }
+    var n = Number(prompt())
+    if (n < 0) {
+      n = -n
+      isnagative = true
     }
-    else{
-      for(var i = 0 ; i <= len - 1; i ++){
-        str += a.charAt(len - 2 - i)
-      }
-    }
-    console.log(str)
-  }else if(k == 0){
-    console.log(0)
-  }else{
-    var k1  = -k
-    st = String(k1)
-    len1 = st.length
-    str += "-"
-    if(st.charAt(len1 - 1) != '0'){
-      for(var i = 0 ; i <= len1 - 1; i ++){
-        str += st.charAt(len1 - 1 - i)
-      }
-    }
-    else{
-      for(var i = 0 ; i <= len1 - 1; i ++){
-        str += st.charAt(len1 - 2 - i)
-      }
-    }
-    console.log(str)
-  }
-</script>
+    var result = ''
+    do {
+      var digit = n % 10
+      result = result + digit
+      n = (n - digit) / 10
+    } while (n > 0)
+    if (isnagative) {
+      console.log('-' + result)
+    } else { console.log(result) }
+
+
+  </script>
   <script type="foo" id="ch0105/30">
   var m = prompt()
   var k = prompt()
@@ -808,5 +791,262 @@
     }
   }
 </script>
+  <script type="foo" id="ch0105/31">
+    var n = Number(prompt("m"))
+    var m = Number(prompt("n"))
+    var x
+    var result = ""
+    for (var i = 1; i < n; i++) {
+      x = 0
+      for (var j = 1; j < m; j++) {
+        if (i % j == 0) {
+          x++
+        }
+      }
+      if (x % 2 == 1) {
+        result = result + i + ","
+      }
+    }
+    console.log(result)
+  </script>
+  <script type="foo" id="ch0105/32">
+    var qi = 2
+    var pi = 1
+    var n = prompt()
+    var sum = 0
+    function a(n) {
+      if (n == 1) {
+        return 2 / 1
+      } else {
+        return 1 + 1 / a(n - 1)
+      }
+    }
+    for (var i = 1; i <= n; i++) {
+      sum += a(i)
+    }
+    console.log(sum.toFixed(4))
+  </script>
+  <script type="foo" id="ch0105/33">
+    var n = prompt()
+    var sum = 0
+    for (var i = 1; i <= n; i++) {
+      if (i % 2 == 1) {
+        sum += 1 / i
+      } else {
+        sum -= 1 / i
+      }
+    }
+    console.log(sum.toFixed(4))
+  </script>
+  <script type="foo" id="ch0105/34">
+    var k = parseInt(prompt())
+    var n
+    var sum = 0
+    function a(n) {
+      if (n == 1) {
+        return 1
+      } else {
+        return a(n - 1) * n
+      }
+    }
+    for (var i = 1; i <= k; i++) {
+      sum += a(i)
+    }
+    console.log(sum)
+  </script>
+  <script type="foo" id="ch0105/35">
+    var k = parseInt(prompt())
+    var n
+    var sum = 0
+    function a(n) {
+      if (n == 1) {
+        return 1
+      } else {
+        return a(n - 1) * n
+      }
+    }
+    for (var i = 1; i <= k; i++) {
+      sum += 1 / a(i)
+    }
+    console.log((sum + 1).toFixed(10))
+  </script>
+  <script type="foo" id="ch0105/36">
+    var x = parseInt(prompt())
+    var n = parseInt(prompt())
+    var sum = 0
+    function a(n) {
+      return Math.pow(x, n)
+    }
+    for (var i = 0; i <= n; i++) {
+      sum += a(i)
+    }
+    console.log(sum.toFixed(2))
+  </script>
+  <script type="foo" id="ch0105/37">
+    var M = parseInt(prompt())//体力最大值N
+    var N = parseInt(prompt())//初始战斗力
+    var X = parseInt(prompt())//拥有的能量元素
+    var i = 0
+    while (X >= 0) {
+      i++
+      if (i * N >= M) {//体力值达到参加战斗
+        var b = parseInt(M / N)
+        N += b
+        X -= i //剩余能量棒
+        i = 0 //继续下一个循环
+      }
+    }
+    console.log(N)
+  <script xtype="foo" id="ch0105/38">
+
+    var n = parseInt(prompt())	
+    for (var i = 1; i <= n; i++) {
+      var str = ""
+      var index = prompt()
+      if (index == 0) {
+        var b = prompt()
+        console.log('0')
+        continue
+      }
+      else {
+        for (var j = 0; j <= index; j++) {
+          var a = prompt()
+          if (j != index) {
+            str += a * (index - j) + ' '
+          }
+          else {
+            str = str
+          }
+        }
+        console.log(str.substr(0, str.length - 1))
+      }
+
+    }
+  </script>
+  <script type="foo" id="ch0105/39">
+    var n = parseInt(prompt())//最高次幂
+    var sum = 0
+    for (var i = 0; i <= n; i++) {
+      if (i % 7 != 0 && i / 10 != 7 && i % 10 != 7) {
+        sum += i ** 2
+      }
+    }
+    console.log(sum)
+  </script>
+  <script type="foo" id="ch0105/40">
+    var n = parseInt(prompt())
+    var sum = 0
+    for (var i = 1; i <= n; i++) {
+      var str = String(i)
+      var len = str.length
+      for (var j = 0; j < len; j++) {
+        if (str.charAt(j) == '1') {
+          sum += 1
+        }
+      }
+    }
+    console.log(sum)
+  </script>
+  <script type="foo" id="ch0105/41">
+    var l = parseInt(prompt())
+    var r = parseInt(prompt())
+    var sum = 0
+    for (var i = l; i <= r; i++) {
+      var str = String(i)
+      var len = str.length
+      for (var j = 0; j < len; j++) {
+        if (str.charAt(j) == '2') {
+          sum++
+        }
+      }
+    }
+    console.log(sum)
+  </script>
+  <script type="foo" id="ch0105/42">
+    var a = parseInt(prompt())
+    var b = parseInt(prompt())
+    var c = prompt()
+    var d = prompt()
+    if (d == 1) {
+      for (var i = 1; i <= b; i++) {
+        console.log((c).repeat(a))
+      }
+    } else if (d == 0) {
+      for (var i = 1; i <= b; i++) {
+        if (i == 1 || i == b) {
+          var str = ""
+          for (var j = 1; j <= a; j++) {
+            str += c
+          }
+          console.log(str)
+        } else {
+          var str = c
+          for (var j = 1; j <= a; j++) {
+            str += ' '
+          }
+          str += c
+          console.log(str)
+        }
+      }
+    }
+  </script>
+  <script type="foo" id="ch0105/43">
+    var a = parseInt(prompt())
+    var flag = 1;
+    for (var i = 1; i < a; i++) {
+      if (a % i == 0) {
+        flag = i
+      }
+    }
+    console.log(flag)
+  </script>
+  <script type="foo" id="ch0105/44">
+    var n = parseInt(prompt())
+    var count = 4
+    for (var i = 8; i <= 10000; i++) {
+      if (i % 2 != 0 && i % 3 != 0 && i % 7 != 0 && i % 5 != 0) {
+        count++
+      }
+      if (count == n) {
+        console.log(i)
+        break
+      }
+    }
+  </script>
+  <script type="foo" id="ch0105/45">
+    var day = parseInt(prompt())
+    var sum = 0
+    // var n//写两个函数计算
+    function sub(n) {//总天数
+      if (n >= 1) {
+        if (n == 1) {
+          return 1
+        } else {
+          return sub(n - 1) + n
+        }
+      }
+      else {
+        return 0
+      }
+    }
+    function total(k) {
+      if (k == 1) {
+        return 1
+      } else {
+        return total(k - 1) + Math.pow(k, 2)//总金币数
+      }
+    }
+    var index = 0//指针指向天数(范围确定)
+    var count = 0//获得的金币初始化
+    for (var j = 1; j <= 200; j++) {
+      if (sub(j - 1) < day && day <= sub(j)) {
+        var left_day = day - sub(j - 1)
+        total = total(j - 1) + left_day * j
+      }
+    }
+    console.log(total)
+  </script>
+
+</body>
 
 </html>
