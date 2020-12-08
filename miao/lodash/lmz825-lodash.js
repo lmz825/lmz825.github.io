@@ -19,4 +19,22 @@ var lmz825 = function () {
     }
     return res
   }
+  //创建一个具有唯一array值的数组，每个值不包含在其他给定的数组中
+  function difference(array, [values]) {
+    var res = []
+    for (i = 0; i < array.length; i++) {
+      for (j = 0; j < values.length; j++) {
+        if (array[i] !== values[j]) {
+          res.push(array[i])
+        }
+      }
+    }
+    return res
+  }
+  //
+  return {
+    compact,
+    chunk,
+    difference,
+  }
 }()
