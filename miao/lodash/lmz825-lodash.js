@@ -78,12 +78,12 @@ var lmz825 = function () {
     return array.length
   }
   //创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
-  function drop(array, n) {
+  function drop(array, n = 1) {
     array.splice(0, n)
     return array
   }
   //创建一个切片数组，去除array尾部的n个元素。（n默认值为1。）
-  function dropRight(array, n) {
+  function dropRight(array, n = 1) {
     for (i = 0; i < n; i++) {
       array.pop()
     }
@@ -118,6 +118,27 @@ var lmz825 = function () {
     }
     return result
   }
+  //将array递归为一维数组。
+  function flattenDeep(array) {
+    return array.flat(Infinity)
+  }
+  //根据 depth 递归减少 array 的嵌套层级
+  function flattenDepth(array, depth) {
+    let result = []
+    array.forEach(item => {
+      let d = depth
+      if (Array.isArray(item) && d > 0) {
+        result.push(...(flattenDepth(item, --d)))
+      } else {
+        result.push(item)
+      }
+    })
+    return result
+  }
+  //；这个方法返回一个由键值对pairs构成的对象。
+  function fromPairs(pairs) {
+
+  }
   return {
     compact,
     chunk,
@@ -132,5 +153,7 @@ var lmz825 = function () {
     fill,
     findIndex,
     flatten,
+    flattenDeep,
+    flattenDepth,
   }
 }()
