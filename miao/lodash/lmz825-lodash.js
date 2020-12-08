@@ -1,4 +1,4 @@
-https://lmz825.github.io/miao/lodash/lmz825-lodash.js
+
 var lmz825 = {
   compact: function (ary) {
     var result = []
@@ -9,4 +9,4 @@ var lmz825 = {
     }
     return result
   }
-
+}
