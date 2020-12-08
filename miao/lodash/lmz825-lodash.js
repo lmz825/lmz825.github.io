@@ -137,7 +137,16 @@ var lmz825 = function () {
   }
   //；这个方法返回一个由键值对pairs构成的对象。
   function fromPairs(pairs) {
-
+    var result = {}
+    if (pairs == null) return result
+    for (var pair of pairs) {
+      result[pair[0]] = pair[1]
+    }
+    return result
+  }
+  //获取数组 array 的第一个元素
+  function head(array) {
+    return array != null && array.length ? array[0] : undefined
   }
   return {
     compact,
@@ -155,5 +164,7 @@ var lmz825 = function () {
     flatten,
     flattenDeep,
     flattenDepth,
+    fromPairs,
+    head
   }
 }()
