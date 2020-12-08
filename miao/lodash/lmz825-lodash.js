@@ -11,27 +11,28 @@ var lmz825 = function () {
     return result
   }
   //将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
-  function chunk(array, [size]) {
+  function chunk(array, size) {
     var res = []
-    if (array.lemngth <= 0 || size <= 0) return array
+    if (array.length <= 0 || size <= 0) return array
     for (i = 0; i < array.length; i = i + size) {
-      res.push(array.splice(i, i + size))
+      res.push(array.slice(i, i + size))
     }
     return res
   }
   //创建一个具有唯一array值的数组，每个值不包含在其他给定的数组中
-  function difference(array, [values]) {
-    var res = []
-    for (i = 0; i < array.length; i++) {
-      for (j = 0; j < values.length; j++) {
-        if (array[i] !== values[j]) {
-          res.push(array[i])
-        }
-      }
-    }
-    return res
+  function difference(array, values) {
+
+
+    return array.concat(values).filter(function (v, i, array) {
+
+      return array.indexOf(v) === array.lastIndexOf(v);
+
+    });
   }
-  //
+  //将 array 中的所有元素转换为由 separator 分隔的字符串。
+  function join(array, separator = ',') {
+
+  }
   return {
     compact,
     chunk,
