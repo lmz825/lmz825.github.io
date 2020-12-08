@@ -31,11 +31,58 @@ var lmz825 = function () {
   }
   //将 array 中的所有元素转换为由 separator 分隔的字符串。
   function join(array, separator = ',') {
+    if (array.length < 0) return null
+    var res = array[0]
+    for (i = 1; i < array.length; i++) {
+      res += separator + array[i]
+    }
+    return res
+  }
+  //获取array中的最后一个元素。
 
+  function last(array) {
+    return array.reverse()[0]
+  }
+  //类似_.indexOf ，区别是它是从右到左遍历array的元素。
+  function lastIndexOf(array, value, fromIndex = array.length - 1) {
+    var index = fromIndex + 1
+    while (index--) {
+      if (array[index] === value) {
+        return index
+      }
+    }
+    return index
+  }
+  //反转array，使得第一个元素变为最后一个元素，第二个元素变为倒数第二个元素，依次类推。
+  function reverse(array) {
+    var left = 0
+    var right = array.length - 1
+    while (left < right) {
+      var temp = array[left]
+      array[left] = array[right]
+      array[right] = temp
+      left++
+      right--
+    }
+    return array
+  }
+  //使用二进制的方式检索来决定 value值 应该插入到数组中 尽可能小的索引位置，以保证array的排序。
+  function sortedIndex(array, value) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] > value) {
+        return i
+      }
+    }
+    return array.length
   }
   return {
     compact,
     chunk,
     difference,
+    join,
+    last,
+    lastIndexOf,
+    reverse,
+    sortedIndex,
   }
 }()
