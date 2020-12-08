@@ -32,11 +32,12 @@ var lmz825 = function () {
   //将 array 中的所有元素转换为由 separator 分隔的字符串。
   function join(array, separator = ',') {
     if (array.length < 0) return null
-    var res = array[0]
-    for (i = 1; i < array.length; i++) {
-      res += separator + array[i]
+    var res = ''
+    var m = String(separator)
+    for (i = 0; i < array.length - 1; i++) {
+      res += array[i] + m
     }
-    return res
+    return res + array[i]
   }
   //获取array中的最后一个元素。
 
@@ -49,6 +50,7 @@ var lmz825 = function () {
     while (index--) {
       if (array[index] === value) {
         return index
+        break
       }
     }
     return index
@@ -69,11 +71,52 @@ var lmz825 = function () {
   //使用二进制的方式检索来决定 value值 应该插入到数组中 尽可能小的索引位置，以保证array的排序。
   function sortedIndex(array, value) {
     for (var i = 0; i < array.length; i++) {
-      if (array[i] > value) {
+      if (array[i] >= value) {
         return i
       }
     }
     return array.length
+  }
+  //创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
+  function drop(array, n) {
+    array.splice(0, n)
+    return array
+  }
+  //创建一个切片数组，去除array尾部的n个元素。（n默认值为1。）
+  function dropRight(array, n) {
+    for (i = 0; i < n; i++) {
+      array.pop()
+    }
+    return array
+  }
+  //使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）。
+  function fill(array, value, start, end) {
+    for (i = start; i < end; i++) {
+      array[i] = value
+    }
+    return array
+  }
+  //该方法类似_.find，区别是该方法返回第一个通过 predicate 判断为真值的元素的索引值（index），而不是元素本身。
+
+  function findIndex(array, predicate, fromIndex = 0) {
+    for (i = fromIndex; i < array.length; i++) {
+      if (predicate(array[i])) {
+        return i
+      }
+    }
+    return -1
+  }
+  //减少一级array嵌套深度
+  function flatten(array) {
+    var result = []
+    for (i = 0; i < array.length; i++) {
+      if (Array.isArray(array[i])) {
+        result.push(...array[i])
+      } else {
+        result.push(array[i])
+      }
+    }
+    return result
   }
   return {
     compact,
@@ -84,5 +127,10 @@ var lmz825 = function () {
     lastIndexOf,
     reverse,
     sortedIndex,
+    drop,
+    dropRight,
+    fill,
+    findIndex,
+    flatten,
   }
 }()
