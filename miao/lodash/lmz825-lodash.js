@@ -148,6 +148,101 @@ var lmz825 = function () {
   function head(array) {
     return array != null && array.length ? array[0] : undefined
   }
+  //返回首次 value 在数组array中被找到的 索引值， 如果 fromIndex 为负值，将从数组array尾端索引进行匹配。
+  function indexOf(array, value, fromIndex = 0) {
+    var length = array == null ? 0 : array.length;
+    if (!length) {
+      return -1;
+    }
+    for (i = fromIndex; i < array.length; i++) {
+      if (array[i] === value) {
+        return i
+        break
+      }
+    }
+  }
+  //获取数组array中除了最后一个元素之外的所有元素
+  function initial(array) {
+    return array.slice(0, array.length - 1)
+  }
+  //所有都返回true才会返回true，哪怕有一个false，就会返回false
+  function every(collection, predicate = _.identity) {
+    var result = true
+    for (let i = 0; i < collection.length; i++) {
+      if (!predicate(collection[i])) {
+        result = false
+        break
+      }
+    }
+    return result
+  }
+  //遍历 collection（集合）元素，返回 predicate（断言函数）返回真值 的所有元素的数组
+  function filter(collection, predicate = _.identity) {
+    var res
+    if (Array.isArray(collection)) {
+      res = [];
+      if (!collection.length) {
+        return null;
+      } else {
+        for (var i of collection) {
+          if (predicate(i)) res.push(i);
+        }
+      }
+    } else if (typeof collection === "object" && collection !== null) {
+      res = {};
+      if (!Object.keys(collection).length) {
+        return null;
+      } else {
+        for (let key of Object.keys(collection)) {
+          if (predicate(collection[key])) res[key] = collection[key];
+        }
+      }
+    }
+    return res;
+  }
+  //遍历 collection（集合）元素，返回 predicate（断言函数）第一个返回真值的第一个元素。
+  function find(collection, predicate = _.identity) {
+    var res
+    if (Array.isArray(collection)) {
+      res = [];
+      if (!collection.length) {
+        return null;
+      } else {
+        for (var i of collection) {
+          if (predicate(i)) {
+            res.push(i)
+            break
+          }
+        }
+      }
+    } else if (typeof collection === "object" && collection !== null) {
+      res = {};
+      if (!Object.keys(collection).length) {
+        return null;
+      } else {
+        for (let key of Object.keys(collection)) {
+          if (predicate(collection[key])) {
+            res[key] = collection[key]
+            break
+          }
+        }
+      }
+    }
+    return res;
+  }
+  //转换 value 为一个数组。
+
+  function toArray(value) {
+    if (!value) {
+      return []
+    }
+    if (Object.prototype.toString.call(value) === "[object Object]") {
+      return Object.values(value)
+    }
+    return Array.from(value)
+  }
+
+
   return {
     compact,
     chunk,
@@ -165,6 +260,12 @@ var lmz825 = function () {
     flattenDeep,
     flattenDepth,
     fromPairs,
-    head
+    head,
+    indexOf,
+    initial,
+    every,
+    filter,
+    find,
+    toArray,
   }
 }()
