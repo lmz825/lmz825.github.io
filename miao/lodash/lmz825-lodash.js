@@ -90,7 +90,7 @@ var lmz825 = function () {
     return array
   }
   //使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）。
-  function fill(array, value, start, end) {
+  function fill(array, value, start = 0, end = array.length) {
     for (i = start; i < end; i++) {
       array[i] = value
     }
@@ -241,6 +241,102 @@ var lmz825 = function () {
     }
     return Array.from(value)
   }
+  //计算 array 中的最大值
+  function max(array) {
+    if (array.length == 0 || array == null) return undefined
+    var num = 0
+    for (i = 1; i < array.length; i++) {
+      if (array[i] > array[i - 1]) {
+        num = array[i]
+      }
+    }
+    return num
+  }
+  //
+  function maxBy(array, iteratee) {
+    var num = -Infinity
+    var sum
+    if (typeof iteratee == 'function') {
+      for (var val of array) {
+        if (num < iteratee(val)) {
+          num = iteratee(val)
+          sum = val
+        }
+      }
+    } else {
+      for (var val of array) {
+        if (num < val[iteratee]) {
+          num = val[iteratee]
+          sum = val
+        }
+      }
+    }
+    return sum
+  }
+  //计算 array 中的最小值
+  function min(array) {
+    if (array.length == 0 || array == null) return undefined
+    var num = 0
+    for (i = 1; i < array.length; i++) {
+      if (array[i] < array[i - 1]) {
+        num = array[i]
+      }
+    }
+    return num
+  }
+  //接受 iteratee 来调用 array中的每一个元素，来生成其值排序的标准
+  function minBy(array, iteratee) {
+    var num = Infinity
+    var sum
+    if (typeof iteratee == 'function') {
+      for (var val of array) {
+        if (num > iteratee(val)) {
+          num = iteratee(val)
+          sum = val
+        }
+      }
+    } else {
+      for (var val of array) {
+        if (num > val[iteratee]) {
+          num = val[iteratee]
+          sum = val
+        }
+      }
+    }
+    return sum
+  }
+  //计算 array 中值的总和
+  function sum(array) {
+    if (array.length == 0 || array == null) return undefined
+    var num = 0
+    for (i = 0; i < array.length; i++) {
+      num += array[i]
+    }
+    return num
+  }
+  //它接受 iteratee 来调用 array中的每一个元素，来生成其值排序的标准
+  function sumBy(array, iteratee) {
+    var sum = 0
+    if (typeof iteratee == 'function') {
+      for (var val of array) {
+        sum += iteratee(val)
+      }
+    } else {
+      for (var val of array) {
+        sum += val[iteratee]
+      }
+    }
+    return sum
+  }
+  //创建一个函数，该函数接收 func 的参数，要么调用func返回的结果，如果 func 所需参数已经提供，则直接返回 func 所执行的结果。或返回一个函数，接受余下的func 参数的函数，
+  function curry(fn) {
+    var args = Array.prototype.slice.call(arguments, 1)
+    return function () {
+      var innerArgs = Array.prototype.slice.call(arguments)
+      var finalArgs = args.concat(innerArgs)
+      return fn.apply(null, finalArgs)
+    }
+  }
 
 
   return {
@@ -267,5 +363,12 @@ var lmz825 = function () {
     filter,
     find,
     toArray,
+    max,
+    maxBy,
+    min,
+    minBy,
+    sum,
+    sumBy,
+    curry,
   }
 }()
