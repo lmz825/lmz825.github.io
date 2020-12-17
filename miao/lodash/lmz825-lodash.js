@@ -20,14 +20,12 @@ var lmz825 = function () {
     return res
   }
   //创建一个具有唯一array值的数组，每个值不包含在其他给定的数组中
-  function difference(array, values) {
-
-
-    return array.concat(values).filter(function (v, i, array) {
-
-      return array.indexOf(v) === array.lastIndexOf(v);
-
-    });
+  function difference(array, ...values) {
+    const result = new Set()
+    for (let val of values) {
+      for (let res of val) result.add(res)
+    }
+    return array.filter(res => !result.has(res))
   }
   //将 array 中的所有元素转换为由 separator 分隔的字符串。
   function join(array, separator = ',') {
@@ -337,8 +335,63 @@ var lmz825 = function () {
       return fn.apply(null, finalArgs)
     }
   }
-
-
+  // 调用array 和 values 中的每个元素以产生比较的标准。 结果值是从第一数组中选择。iteratee 会调用一个参数
+  function differenceBy(array, ...values) {
+    let f = arguments[arguments.length - 1]
+    let temp = []
+    let res = []
+    if (typeof (f) == 'function') {
+      for (let i = 0; i < values.length - 1; i++) {
+        for (let j = 0; j < values.length; j++) {
+          temp.push(f(values[i][j]))
+        }
+      }
+      for (let i = 0; i < array.length; i++) {
+        if (temp.indexOf(f(array[i])) == -1) {
+          res.push(array[i])
+        }
+      }
+      return res
+    } else if (typeof (f) == 'string') {
+      for (let i = 0; i < values.length - 1; i++) {
+        for (let j = 0; j < values[i].length; j++) {
+          let t = values[i][j][f]
+          temp.push(t)
+        }
+      }
+      for (let i = 0; i < array.length; i++) {
+        if (temp.indexOf(array[i][f]) == -1) {
+          res.push(array[i])
+        }
+      }
+      return res
+    } else {
+      return difference(array, ...values)
+    }
+  }
+  //它是从右到左的迭代集合array中的元素
+  function findLastIndex(ary, predicate, fromIndex = ary.length - 1) {
+    for (let i = fromIndex; i >= 0; i--) {
+      if (ary[i] === predicate) {
+        return i;
+      } else if (typeof predicate === "function" && predicate(ary[i])) {
+        return i;
+      } else if (
+        Array.isArray(predicate) &&
+        ary[i][predicate[0]] == predicate[1]
+      ) {
+        return i;
+      } else if (
+        typeof predicate === "object" &&
+        DeepComparsion(ary[i], predicate)
+      ) {
+        return i;
+      } else if (ary[i][predicate]) {
+        return i;
+      }
+    }
+    return -1;
+  }
   return {
     compact,
     chunk,
@@ -370,5 +423,7 @@ var lmz825 = function () {
     sum,
     sumBy,
     curry,
+    differenceBy,
+    findLastIndex,
   }
 }()
