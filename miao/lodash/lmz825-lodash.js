@@ -392,6 +392,162 @@ var lmz825 = function () {
     }
     return -1;
   }
+  //返回一个包含所有传入数组交集元素的新数组。
+  function intersection(...arrays) {
+    let arr = []
+    let res = arrays[0]
+    for (var i = 0; i < res.length; i++) {
+      for (var j = 1; j < arrays.length; j++) {
+        if (!arrays[j].includes(res[i])) {
+          break
+        }
+        if (j == arrays.length - 1) {
+          arr.push(res[i])
+        }
+      }
+    }
+    return arr
+  }
+  //移除数组array中所有和给定值相等的元素
+  function pull(array, ...values) {
+    let path = []
+    for (var i = 0; i < array.length; i++) {
+      if (!values.includes(array[i])) {
+        path.push(array[i])
+      }
+    }
+    return path
+  }
+  //创建一个按顺序排列的唯一值的数组
+  function union(...arrays) {
+    let path = []
+    arrays.forEach(item => {
+      item.forEach(i => {
+        path.push(i)
+      })
+    })
+    return [...new Set(path)]
+  }
+  //返回一个新的联合数组。
+  function unionBy(...args) {
+    var arr = [].concat(...args)
+    var iteratee = arr.pop()
+    var map = []
+    var res = []
+    if (typeof iteratee == 'function') {
+      for (var item of arr) {
+        if (!map.includes(iteratee(item))) {
+          map.push(iteratee(item))
+          res.push(item)
+        }
+      }
+      return res
+    }
+    if (typeof iteratee == 'string') {
+      for (var item of arr) {
+        if (!map.includes(item[iteratee])) {
+          map.push(item[iteratee])
+          res.push(item)
+        }
+      }
+      return res
+    }
+
+  }
+  //创建一个去重后的array数组副本
+  function uniq(array) {
+    var arr = []
+    for (var i of array) {
+      if (arr.includes(i) == false) {
+        arr.push(i)
+      }
+    }
+    return arr
+  }
+  //它接受一个 iteratee （迭代函数），调用每一个数组（array）的每个元素以产生唯一性计算的标准
+  function uniqBy(array, iteratee) {
+    var res = []
+    var map = []
+    if (typeof iteratee == 'string') {
+      for (var item of array) {
+        if (!map.includes(item[iteratee])) {
+          map.push(item[iteratee])
+          res.push(item)
+        }
+      }
+      return res
+    } else {
+      for (var item of array) {
+        if (!map.includes(iteratee(item))) {
+          map.push(iteratee(item))
+          res.push(item)
+        }
+      }
+      return res
+    }
+  }
+  //创建一个分组元素的数组，数组的第一个元素包含所有给定数组的第一个元素，数组的第二个元素包含所有给定数组的第二个元素，以此类推。
+  function zip(...arrs) {
+    let maxlen = arrs[0].length
+    let res = Array(maxlen).fill(0).map(it => Array(arrs.length));
+    for (let i = 0; i < maxlen; i++) {
+      for (let j = 0; j < arrs.length; j++) {
+        res[i][j] = arrs[j][i];
+      }
+    }
+
+    return res;
+  }
+  //接收分组元素的数组，并且创建一个数组，分组元素到打包前的结构
+  function unzip(arrays) {
+    let l = arrays[0].length
+    let newarr = new Array(l).fill(0).map(it => it = new Array(arrays.length))//新建一个可以装新对象的数组 2,3变3,2
+    for (let i = 0; i < newarr.length; i++) {//最外层是行数
+      for (var j = 0; j < arrays.length; j++) {
+        newarr[i][j] = arrays[j][i]
+      }
+    }
+    return newarr
+  }
+  //创建一个剔除所有给定值的新数组
+  function without(array, ...values) {
+    let arr = []
+    array.forEach(it => {
+      if (!values.includes(it)) {
+        arr.push(it)
+      }
+    })
+    return arr
+  }
+  //创建一个给定数组唯一值的数组
+  function xor(...args) {
+    let newArg = args.flat();
+    return newArg.filter(it => newArg.indexOf(it) === newArg.lastIndexOf(it))
+  }
+  //创建一个组成对象，key（键）是经过 iteratee（迭代函数） 执行处理collection中每个元素后返回的结果，每个key（键）对应的值是 iteratee（迭代函数）返回该key（键）的次数（注：迭代次数）。
+  function countBy(collection, iteratee = _.identity) {
+    let result = {}
+    if (typeof iteratee == 'function') {
+      for (let item of collection) {
+        item = iteratee(item)
+        result[item] = result[item] + 1 || 1
+      }
+    } else {
+      for (let item of collection) {
+        item = item[iteratee]
+        result[item] = result[item] + 1 || 1
+      }
+    }
+    return result
+  }
+  //创建一个扁平化（注：同阶数组）的数组
+  function flatMap(collection, iteratee) {
+    let res = []
+    for (let item of collection) {
+      res.push(iteratee(item))
+    }
+    return flattenDeep(res)
+  }
   return {
     compact,
     chunk,
@@ -425,5 +581,17 @@ var lmz825 = function () {
     curry,
     differenceBy,
     findLastIndex,
+    intersection,
+    pull,
+    union,
+    unionBy,
+    uniq,
+    uniqBy,
+    unzip,
+    without,
+    xor,
+    zip,
+    countBy,
+    flatMap,
   }
 }()
