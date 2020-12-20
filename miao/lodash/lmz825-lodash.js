@@ -576,7 +576,7 @@ var lmz825 = function () {
     }
     if (Object.prototype.toString.call(iteratee) == '[object String]') {
       for (var item of collection) {
-        var key = iteratee(item)
+        var key = iteratee[item]
         if (key in map) {
           map[key].push(item)
         } else {
@@ -641,7 +641,7 @@ var lmz825 = function () {
   //压缩 collection（集合）为一个值，通过 iteratee（迭代函数）遍历 collection（集合）中的每个元素，每次返回的值会作为下一次迭代使用
   function reduce(collection, reducer = identity, accumulator) {
     let value = Object.values(collection)
-    let key = Object.values(collection)
+    let key = Object.keys(collection)
     if (accumulator === undefined) {
       accumulator = value.shift()
       key.shift()
@@ -705,13 +705,43 @@ var lmz825 = function () {
   }
   //返回collection（集合）的长度，如果集合是类数组或字符串，返回其 length ；如果集合是对象，返回其可枚举属性的个数。
   function size(collection) {
-    return collection.length || Object.keys(collection)
+    return collection.length || Object.keys(collection).length
   }
-  //
-  function some(collection, predicate = this.identity) {
-    let fnc = this.iteratee(predicate)
-    for (let i in collection) {
-      if (fnc(collection[i])) return true
+  //some
+  function some(collection, predicate) {
+    for (var i = 0; i < collection.length; i++) {
+      var a = collection[i]
+      if (typeof (predicate) == 'function') {
+        if (predicate(a)) {
+          return true
+        }
+      } else if (typeof (predicate) == 'string') {
+        if (a[predicate]) {
+          return true
+        }
+      } else if (Array.isArray(predicate)) {
+        var same = true
+        for (var j = 0; j < predicate.length; j += 2) {
+          if (a[predicate[j]] !== predicate[j + 1]) {
+            same = false
+            break
+          }
+        }
+        if (same) {
+          return true
+        }
+      } else if (typeof (predicate) == 'object') {
+        var same = true
+        for (var key in predicate) {
+          if (a[key] !== predicate[key]) {
+            same = false
+            break
+          }
+        }
+        if (same) {
+          return true
+        }
+      }
     }
     return false
   }
