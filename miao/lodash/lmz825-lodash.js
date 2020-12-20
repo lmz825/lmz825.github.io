@@ -548,6 +548,97 @@ var lmz825 = function () {
     }
     return flattenDeep(res)
   }
+  //调用 iteratee 遍历 collection(集合) 中的每个元素
+  function forEach(collection, iteratee) {
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        iteratee(collection[i], i, collection)
+      }
+    } else {
+      for (let key in collection) {
+        iteratee(collection[key], key, collection)
+      }
+    }
+    return collection
+  }
+  //创建一个对象，key 是 iteratee 遍历 collection(集合) 中的每个元素返回的结果
+  function groupBy(collection, iteratee) {
+    var map = {}
+    if (Object.prototype.toString.call(iteratee) == '[object Function]') {
+      for (var item of collection) {
+        var key = iteratee(item)
+        if (key in map) {
+          map[key].push(item)
+        } else {
+          map[key] = [item]
+        }
+      }
+    }
+    if (Object.prototype.toString.call(iteratee) == '[object String]') {
+      for (var item of collection) {
+        var key = iteratee(item)
+        if (key in map) {
+          map[key].push(item)
+        } else {
+          map[key] = [item]
+        }
+      }
+    }
+    return map
+  }
+
+  //创建一个对象组成， key（键） 是 collection（集合）中的每个元素经过 iteratee（迭代函数） 处理后返回的结果。
+  function keyBy(collection, iteratee) {
+    return collection.reduce((obj, item) => {
+      if (typeof iteratee == 'function') {
+        obj[iteratee(item)] = item
+      } else {
+        obj[item[iteratee]] = item
+      }
+      return obj
+    }, {})
+  }
+  //创建一个数组， value（值） 是 iteratee（迭代函数）遍历 collection（集合）中的每个元素后返回的结果
+  function map(collection, iteratee) {
+    var ary = []
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        let a = collection[i]
+        if (typeof (iteratee) === "function") {
+          ary.push(iteratee(a, i, collection))
+        } else if (typeof (iteratee) === "string") {
+          let s = iteratee.split('.')
+          let b = a
+          for (let j = 0; j < s.length; j++) {
+            b = b[s[j]]
+          }
+          ary.push(b)
+        }
+      }
+    } else if (typeof (collection) === 'object') {
+      for (var key in collection) {
+        if (typeof (iteratee) === 'function') {
+          ary.push(iteratee(collection[key]))
+        }
+      }
+    }
+    return ary
+  }
+  //创建一个分成两组的元素数组，第一组包含predicate（断言函数）返回为 truthy（真值）的元素，第二组包含predicate（断言函数）返回为 falsey（假值）的元素。
+  function partition(collection, predicate = _.identity) {
+    predicate = iteratee(predicate);
+    let trueArr = [];
+    let falseArr = [];
+    for (let val of Object.values(collection)) {
+      if (predicate(val)) {
+        trueArr.push(val);
+      } else {
+        falseArr.push(val);
+      }
+    }
+    return [trueArr, falseArr];
+  }
+
   return {
     compact,
     chunk,
@@ -593,5 +684,21 @@ var lmz825 = function () {
     zip,
     countBy,
     flatMap,
+    flattenDepth,
+    forEach,
+    groupBy,
+    keyBy,
+    map,
+    partition,
+    reduce,
+    reduceRight,
+    reject,
+    sample,
+    shuffle,
+    size,
+    some,
+    sortBy,
+    defer,
+    delay
   }
 }()
