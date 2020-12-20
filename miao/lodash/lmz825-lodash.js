@@ -638,7 +638,83 @@ var lmz825 = function () {
     }
     return [trueArr, falseArr];
   }
-
+  //压缩 collection（集合）为一个值，通过 iteratee（迭代函数）遍历 collection（集合）中的每个元素，每次返回的值会作为下一次迭代使用
+  function reduce(collection, reducer = identity, accumulator) {
+    let value = Object.values(collection)
+    let key = Object.values(collection)
+    if (accumulator === undefined) {
+      accumulator = value.shift()
+      key.shift()
+    }
+    for (let i = 0; i < key.length; i++) {
+      accumulator = reducer(accumulator, value[i], key[i])
+    }
+    return accumulator
+  }
+  //它是从右到左遍历collection（集合）中的元素的
+  function reduceRight(collection, combine, initialValue) {
+    let keys = Object.keys(collection).reverse()
+    for (let key of keys) {
+      if (initialValue === undefined) {
+        initialValue = collection[key]
+      } else {
+        initialValue = combine(initialValue, collection[key], key, collection);
+      }
+    }
+    return initialValue;
+  }
+  //_.filter的反向方法;
+  function reject(collection, predicate = _.identity) {
+    var ary = []
+    for (var i = 0; i < collection.length; i++) {
+      var a = collection[i]
+      if (typeof (predicate) == 'function') {
+        if (!(predicate(a))) {
+          ary.push(a)
+        }
+      } else if (typeof (predicate) == 'string') {
+        if (!a[predicate]) {
+          ary.push(a)
+        }
+      } else if (Array.isArray(predicate)) {
+        for (var j = 0; j < predicate.length; j += 2) {
+          if (a[predicate[j]] !== predicate[j + 1]) {
+            ary.push(a)
+            break
+          }
+        }
+      } else if (typeof (predicate) == 'object') {
+        for (var key in predicate) {
+          if (a[key] !== predicate[key]) {
+            ary.push(a)
+            break
+          }
+        }
+      }
+    }
+    return ary
+  }
+  //从collection（集合）中获得一个随机元素。
+  function sample(collection) {
+    let keys = Object.keys(collection)
+    return collection[~~(Math.random() * keys.length)]
+  }
+  //创建一个被打乱值的集合
+  function shuffle(ary) {
+    return sampleSize(ary, ary.length)
+  }
+  //返回collection（集合）的长度，如果集合是类数组或字符串，返回其 length ；如果集合是对象，返回其可枚举属性的个数。
+  function size(collection) {
+    return collection.length || Object.keys(collection)
+  }
+  //
+  function some(collection, predicate = this.identity) {
+    let fnc = this.iteratee(predicate)
+    for (let i in collection) {
+      if (fnc(collection[i])) return true
+    }
+    return false
+  }
   return {
     compact,
     chunk,
@@ -697,8 +773,5 @@ var lmz825 = function () {
     shuffle,
     size,
     some,
-    sortBy,
-    defer,
-    delay
   }
 }()
