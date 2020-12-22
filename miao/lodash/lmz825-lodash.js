@@ -867,18 +867,8 @@ var lmz825 = function () {
     if (typeof (value) === 'object' || typeof (value) === 'string') return false
     return true
   }
-  //isNan
-  function isNaN(val) {
-    if (typeof (val) == 'object') {
-      if (val.length > 1) {
-        return false
-      }
-      val = +String(val)
-    }
-    return val !== val
-  }
   //工具
-  function eqq(para1, para2) {
+  function ele(para1, para2) {
     if (Number.isNaN(para1)) {
       return Number.isNaN(para2);
     } else {
@@ -905,8 +895,18 @@ var lmz825 = function () {
         return false
       }
     } else {
-      return this.eqq(value, other)
+      return this.ele(value, other)
     }
+  }
+  //isNan
+  function isNaN(val) {
+    if (typeof (val) == 'object') {
+      if (val.length > 1) {
+        return false
+      }
+      val = +String(val)
+    }
+    return val !== val
   }
   return {
     compact,
@@ -975,6 +975,6 @@ var lmz825 = function () {
     isElement,
     isEmpty,
     isEqual,
-    isNaN，
+    isNaN,
   }
 }()
