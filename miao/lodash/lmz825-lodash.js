@@ -104,6 +104,39 @@ var lmz825 = function () {
     }
     return -1
   }
+  //工具 比较两个对象是否相同
+  function DeepComparsion(obj1, obj2) {
+    let key1 = [];
+    let key2 = [];
+    for (let key in obj1) {
+      key1.push(key);
+    }
+    for (let key in obj2) {
+      key2.push(key);
+    }
+    if (key1.length !== key2.length) return false;
+    for (key in obj1) {
+      if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
+        if (obj1[key] != obj2[key]) return false;
+      } else {
+        if (!DeepComparsion(obj1[key], obj2[key])) return false;
+      }
+    }
+    return t
+  }
+
+  function paint(predicate) {
+    if (Array.isArray(predicate)) {
+      return (item) => item[predicate[0]] == predicate[1];
+    } else if (typeof predicate == "function") {
+      return predicate;
+    } else if (typeof predicate == "object") {
+      return DeepComparsion.bind(null, predicate);
+    } else if (typeof predicate == "string") {
+      return (item) => item[predicate];
+    }
+  }
+
   //减少一级array嵌套深度
   function flatten(array) {
     var result = []
@@ -564,7 +597,7 @@ var lmz825 = function () {
   //创建一个对象，key 是 iteratee 遍历 collection(集合) 中的每个元素返回的结果
   function groupBy(collection, iteratee) {
     var map = {}
-    if (Object.prototype.toString.call(iteratee) == '[object Function]') {
+    if (Object.prototype.toString.call(iteratee) == "[object Function]") {
       for (var item of collection) {
         var key = iteratee(item)
         if (key in map) {
@@ -574,9 +607,9 @@ var lmz825 = function () {
         }
       }
     }
-    if (Object.prototype.toString.call(iteratee) == '[object String]') {
+    if (Object.prototype.toString.call(iteratee) == "[object String]") {
       for (var item of collection) {
-        var key = iteratee[item]
+        var key = item[iteratee]
         if (key in map) {
           map[key].push(item)
         } else {
@@ -626,7 +659,7 @@ var lmz825 = function () {
   }
   //创建一个分成两组的元素数组，第一组包含predicate（断言函数）返回为 truthy（真值）的元素，第二组包含predicate（断言函数）返回为 falsey（假值）的元素。
   function partition(collection, predicate = _.identity) {
-    predicate = iteratee(predicate);
+    predicate = paint(predicate);
     let trueArr = [];
     let falseArr = [];
     for (let val of Object.values(collection)) {
@@ -744,6 +777,10 @@ var lmz825 = function () {
       }
     }
     return false
+  }
+  //建一个元素数组。 以 iteratee 处理的结果升序排序。
+  function sortBy(collection, iteratees) {
+
   }
   return {
     compact,
