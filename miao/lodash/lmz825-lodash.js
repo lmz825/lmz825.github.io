@@ -798,9 +798,115 @@ var lmz825 = function () {
     }
     return false
   }
+  function orderBy(collection, predicates = identity, orders) {
+    var res = collection.slice()
+    for (var i = predicates.length - 1; i >= 0; i--) {
+      var compare = paint(predicates[i])
+      mergeSort(res, compare)
+      if (orders[i] == 'desc') {
+        res = res.reverse()
+      }
+    }
+    return res
+  }
   //建一个元素数组。 以 iteratee 处理的结果升序排序。
-  function sortBy(collection, iteratees) {
+  function sortBy(collection, iteratee) {
+    var ary = collection.slice()
+    for (var i = 0; i < iteratee.length; i++) {
+      var by = iteratee[i]
+      if (typeof (by) == 'function') {
+        ary.sort((a, b) => {
+          if (by(a) > by(b)) {
+            return 1
+          } else if (by(a) < by(b)) {
+            return -1
+          } else {
+            return 0
+          }
+        })
+      } else if (typeof (by) == 'string') {
+        ary.sort((a, b) => {
+          if (a[by] > b[by]) {
+            return 1
+          } else if (a[by] < b[by]) {
+            return -1
+          } else {
+            return 0
+          }
+        })
+      }
+    }
+    return ary
+  }
+  //检查 value 是否是一个类 arguments 对象。
+  function isArguments(value) {
+    //因为val不一定有toString方法
+    //所以要用ptototype，但是又会有this问题
+    //所以要再用call把this指回去
+    return Object.prototype.toString.call(value) === '[object Arguments]'
+  }
+  //检查 value 是否是 Array 类对象。
+  function isArray(value) {
+    return Object.prototype.toString.call(value) === '[object Array]'
+  }
+  //检查 value 是否是原始 boolean 类型或者对象。
+  function isBoolean(value) {
+    return Object.prototype.toString.call(value) === '[object Boolean]'
+  }
+  //检查 value 是否是 Date 对象。
+  function isDate(value) {
+    return Object.prototype.toString.call(value) === '[object  Date]'
+  }
+  //检查 value 是否是可能是 DOM 元素。
+  function isElement(value) {
+    return Object.prototype.toString.call(value) === "[object HTMLElement]"
+  }
+  //检查 value 是否为一个空对象，集合，映射或者set。
+  function isEmpty(value) {
+    if (value === null) return true
+    if (typeof (value) === 'object' || typeof (value) === 'string') return false
+    return true
+  }
+  //isNan
+  function isNaN(val) {
+    if (typeof (val) == 'object') {
+      if (val.length > 1) {
+        return false
+      }
+      val = +String(val)
+    }
+    return val !== val
+  }
+  //工具
+  function eqq(para1, para2) {
+    if (Number.isNaN(para1)) {
+      return Number.isNaN(para2);
+    } else {
+      return para1 === para2;
+    }
+  }
 
+  //执行深比较来确定两者的值是否相等。
+  function isEqual(value, other) {
+    if (typeof value === 'object') {
+      if (value.__proto__ === other.__proto__) {
+        for (let key in value) {
+          if (!this.isEqual(value[key], other[key])) {
+            return false
+          }
+        }
+        for (let key in other) {
+          if (!this.isEqual(value[key], other[key])) {
+            return false
+          }
+        }
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return this.eqq(value, other)
+    }
   }
   return {
     compact,
@@ -860,6 +966,15 @@ var lmz825 = function () {
     shuffle,
     size,
     some,
+    orderBy,
     sortBy,
+    isArguments,
+    isArray,
+    isBoolean,
+    isDate,
+    isElement,
+    isEmpty,
+    isEqual,
+    isNaN，
   }
 }()
