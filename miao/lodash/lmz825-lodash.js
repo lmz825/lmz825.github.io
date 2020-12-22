@@ -861,6 +861,5 @@ var lmz825 = function () {
     size,
     some,
     sortBy,
-    defer,
   }
 }()
