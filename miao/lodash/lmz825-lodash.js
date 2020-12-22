@@ -116,7 +116,7 @@ var lmz825 = function () {
     }
     if (key1.length !== key2.length) return false;
     for (key in obj1) {
-      if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
+      if (typeof obj1[key] != "object" && typeof obj2[key] != "object") {
         if (obj1[key] != obj2[key]) return false;
       } else {
         if (!DeepComparsion(obj1[key], obj2[key])) return false;
@@ -124,7 +124,27 @@ var lmz825 = function () {
     }
     return t
   }
-
+  function hasSameAttr(obj1, obj2) {
+    for (key in obj1) {
+      if (typeof obj1[key] != "object" && typeof obj2[key] != "object") {
+        if (key in obj2 && obj1[key] != obj2[key]) return false;
+      } else {
+        if (!hasSameAttr(obj1[key], obj2[key])) return false;
+      }
+    }
+    return true;
+  }
+  function paintt(predicate) {
+    if (Array.isArray(predicate)) {
+      return (item) => item[predicate[0]] == predicate[1];
+    } else if (typeof predicate == "function") {
+      return predicate;
+    } else if (typeof predicate == "object") {
+      return hasSameAttr.bind(null, predicate);
+    } else if (typeof predicate == "string") {
+      return (item) => item[predicate];
+    }
+  }
   function paint(predicate) {
     if (Array.isArray(predicate)) {
       return (item) => item[predicate[0]] == predicate[1];
@@ -659,7 +679,7 @@ var lmz825 = function () {
   }
   //创建一个分成两组的元素数组，第一组包含predicate（断言函数）返回为 truthy（真值）的元素，第二组包含predicate（断言函数）返回为 falsey（假值）的元素。
   function partition(collection, predicate = _.identity) {
-    predicate = paint(predicate);
+    predicate = paintt(predicate);
     let trueArr = [];
     let falseArr = [];
     for (let val of Object.values(collection)) {
@@ -840,5 +860,7 @@ var lmz825 = function () {
     shuffle,
     size,
     some,
+    sortBy,
+    defer,
   }
 }()
