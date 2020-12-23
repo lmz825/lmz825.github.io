@@ -855,7 +855,7 @@ var lmz825 = function () {
   }
   //检查 value 是否是 Date 对象。
   function isDate(value) {
-    return Object.prototype.toString.call(value) === '[object  Date]'
+    return Object.prototype.toString.call(value) === "[object Date]"
   }
   //检查 value 是否是可能是 DOM 元素。
   function isElement(value) {
@@ -867,35 +867,37 @@ var lmz825 = function () {
     if (typeof (value) === 'object' || typeof (value) === 'string') return false
     return true
   }
-  //工具
-  function ele(para1, para2) {
-    if (Number.isNaN(para1)) {
-      return Number.isNaN(para2);
-    } else {
-      return para1 === para2;
-    }
-  }
+
 
   //执行深比较来确定两者的值是否相等。
-  function isEqual(value, other) {
-    if (typeof value === 'object') {
-      if (value.__proto__ === other.__proto__) {
-        for (let key in value) {
-          if (!this.isEqual(value[key], other[key])) {
-            return false
+  function isEqual(val, other) {
+    if (val !== val && other !== other) {
+      return true
+    }
+    if (val === other) {
+      return true
+    }
+    if (val === null) {
+      return other === null
+    } else if (other !== null) {
+      return false
+    }
+    var a = typeof (val)
+    var b = typeof (other)
+    if (a === b) {
+      if (a == 'object') {
+        var c = Object.keys(val).length
+        var d = Object.keys(other).length
+        if (c == d) {
+          for (var key in a) {
+            if (a[key] !== b[key]) {
+              return false
+            }
           }
+          return true
         }
-        for (let key in other) {
-          if (!this.isEqual(value[key], other[key])) {
-            return false
-          }
-        }
-        return true
-      } else {
-        return false
       }
-    } else {
-      return this.ele(value, other)
+      return false
     }
   }
   //isNan
@@ -908,6 +910,25 @@ var lmz825 = function () {
     }
     return val !== val
   }
+  //检查 value 是否是 Error,
+  function isError(value) {
+    return Object.prototype.toString.call(value) === "[object Error]"
+  }
+  //检查 value 是否是原始有限数值。
+  function isFinite(val) {
+    return Number.isFinite(val)
+  }
+  //检查 value 是否是 Function 对象。
+  function isFunction(value) {
+    return Object.prototype.toString.call(value) === "[object Function]"
+  }
+  //执行一个深度比较，来确定 object 是否含有和 source 完全相等的属性值。
+  function isMatch(object, source) {
+    for (var i of source) {
+      return this.isEqual(object[i], source[i])
+    }
+  }
+
   return {
     compact,
     chunk,
@@ -976,5 +997,9 @@ var lmz825 = function () {
     isEmpty,
     isEqual,
     isNaN,
+    isError,
+    isFinite,
+    isFunction,
+    isMatch,
   }
 }()
