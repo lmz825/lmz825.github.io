@@ -1007,7 +1007,7 @@ var lmz825 = function () {
     }
   }
   //使用 iteratee 遍历对象的自身和继承的可枚举属性
-  function findKey(obj, predicate = _.identity) {
+  function forIn(obj, predicate = _.identity) {
     predicate = paint(predicate)
     for (var key in obj) {
       if (predicate(obj[key], key, obj) == false) {
