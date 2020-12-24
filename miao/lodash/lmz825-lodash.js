@@ -327,13 +327,11 @@ var lmz825 = function () {
   //计算 array 中的最小值
   function min(array) {
     if (array.length == 0 || array == null) return undefined
-    var num = 0
-    for (i = 1; i < array.length; i++) {
-      if (array[i] < array[i - 1]) {
-        num = array[i]
-      }
+    let ans = Infinity; //最大值
+    for (let i in array) {
+      ans = ans < array[i] ? ans : array[i];
     }
-    return num
+    return ans
   }
   //接受 iteratee 来调用 array中的每一个元素，来生成其值排序的标准
   function minBy(array, iteratee) {
@@ -879,7 +877,7 @@ var lmz825 = function () {
     }
     if (val === null) {
       return other === null
-    } else if (other !== null) {
+    } else if (other === null) {
       return false
     }
     var a = typeof (val)
@@ -889,8 +887,8 @@ var lmz825 = function () {
         var c = Object.keys(val).length
         var d = Object.keys(other).length
         if (c == d) {
-          for (var key in a) {
-            if (a[key] !== b[key]) {
+          for (var key in val) {
+            if (val[key] !== other[key]) {
               return false
             }
           }
@@ -924,11 +922,100 @@ var lmz825 = function () {
   }
   //执行一个深度比较，来确定 object 是否含有和 source 完全相等的属性值。
   function isMatch(object, source) {
-    for (var i of source) {
+    for (var i in source) {
       return this.isEqual(object[i], source[i])
     }
   }
-
+  //检查 value 是否是 null 或者 undefined。
+  function isNil(value) {
+    if (value === null || value === undefined) {
+      return true
+    } else {
+      return false
+    }
+  }
+  //检查 valuealue 是否是 null。
+  function isNull(value) {
+    return value === null
+  }
+  //isNumber
+  function isNumber(value) {
+    return typeof value === 'number';
+  }
+  //检查 value 是否为 Object 的language type。
+  function isObject(value) {
+    if (value === null) { //* 此处一定要先判断value是否为空
+      return false
+    }
+    return value.constructor === Object || value.constructor === Function || value.constructor === Array
+  }
+  //检查 value 是否为RegExp对象。
+  function isRegExp(value) {
+    return Object.prototype.toString.call(value) === "[object RegExp]"
+  }
+  //isString
+  function isString(value) {
+    return Object.prototype.toString.call(value) === "[object String]"
+  }
+  //检查 value 是否是 undefined.
+  function isUndefined(value) {
+    return value === undefined
+  }
+  //根据 precision（精度） 向上舍入 number。
+  function ceil(number, precision = 0) {
+    return Math.ceil(number * 10 ** precision) / 10 ** precision
+  }
+  //根据 precision（精度） 四舍五入 number。
+  function round(number, precision = 0) {
+    if (precision > 0) {
+      return Math.round(number * 10 ** precision) / 10 ** precision;
+    } else if (precision < 0) {
+      return Math.round(number / 10 ** (-precision)) * 10 ** (-precision);
+    } else {
+      return Math.round(number)
+    }
+  }
+  //类似_.assign， 除了它会遍历并继承来源对象的属性。
+  function assignIn(obj, ...sources) {
+    for (var source of sources) {
+      for (var i in source) {
+        obj[i] = source[i]
+      }
+    }
+    return obj
+  }
+  //分配来源对象的可枚举属性到目标对象所有解析为 undefined 的属性上。
+  function defaults(obj, ...sources) {
+    let path = []
+    for (var source of sources) {
+      for (var i in source) {
+        path[i] = source[i]
+      }
+    }
+    for (var key in obj) {
+      path[key] = obj[key]
+    }
+    return path
+  }
+  //findKey
+  function findKey(obj, predicate = _.identity) {
+    predicate = paint(predicate)
+    for (var key of Object.keys(obj)) {
+      if (predicate(obj[key])) {
+        return key
+      }
+    }
+  }
+  //使用 iteratee 遍历对象的自身和继承的可枚举属性
+  function findKey(obj, predicate = _.identity) {
+    predicate = paint(predicate)
+    for (var key in obj) {
+      if (predicate(obj[key], key, obj) == false) {
+        break
+      }
+    }
+    return obj
+  }
   return {
     compact,
     chunk,
@@ -1001,5 +1088,19 @@ var lmz825 = function () {
     isFinite,
     isFunction,
     isMatch,
+    isNil,
+    isNull,
+    isNumber,
+    isObject,
+    isRegExp,
+    isString,
+    isUndefined,
+    toArray,
+    ceil,
+    round,
+    assignIn,
+    defaults,
+    findKey,
+    forIn,
   }
 }()
