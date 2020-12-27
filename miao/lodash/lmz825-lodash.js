@@ -1079,6 +1079,65 @@ var lmz825 = function () {
     }
     return true
   }
+  //创建一个object键值倒置后的对象。 如果 object 有重复的值，后面的值会覆盖前面的值。
+  function invert(object) {
+    let map = {}
+    for (var key in object) {
+      map[object[key]] = key
+    }
+    return map
+  }
+  //调用object对象path上的方法。
+  function invoke(object, path, ...args) {
+    if (typeof path === 'string') {
+      path = path.split(/\[|\.|\]\./g)
+    }
+    let fun = path.pop()
+    for (var i = 0; i < path.length; i++) {
+      object = object[path[i]]
+    }
+    return object[fun](...args)
+
+  }
+  //创建一个 object 的自身可枚举属性名为数组。
+  function keys(obj) {
+    return Object.keys(obj);
+  }
+  // 这个方法创建一个对象，对象的值与object相同，并且 key 是通过 iteratee 运行 object 中每个自身可枚举属性名字符串 产生的
+  function mapKeys(obj, fun) {
+    let res = {}
+    for (var key in obj) {
+      res[fun(obj[key], key)] = obj[key]
+    }
+    return res
+  }
+  //创建一个对象，这个对象的key与object对象相同，值是通过 iteratee 运行 object 中每个自身可枚举属性名字符串产生的。
+  function mapValues(obj, func) {
+    for (key in obj) {
+      if (this.isString(func)) {
+        obj[key] = obj[key][func];
+      } else {
+        obj[key] = func(obj[key], key, obj);
+      }
+    }
+    return obj;
+  }
+  //合并
+  function merge(object, sources) {
+
+    for (key in sources) {
+      if (typeof sources[key] == 'object') {
+        object[key] = merge(object[key], sources[key])
+      } else {
+        if (isArray(object)) {
+          object[key].push(sources[key])
+        } else {
+          object[key] = sources[key]
+        }
+      }
+    }
+    return object
+  }
   return {
     compact,
     chunk,
@@ -1171,6 +1230,12 @@ var lmz825 = function () {
     functions,
     get,
     has,
+    invert,
+    invoke,
+    keys,
+    mapKeys,
+    mapValues,
+    merge,
 
   }
 }()
