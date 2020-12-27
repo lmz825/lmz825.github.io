@@ -990,7 +990,7 @@ var lmz825 = function () {
   }
   //findKey
   function findKey(obj, predicate = identity) {
-    predicate = paint(predicate)
+    predicate = paintt(predicate)
     for (key in obj) {
       if (predicate(obj[key])) {
         return key
@@ -1038,14 +1038,16 @@ var lmz825 = function () {
     return object
   }
   //创建一个函数属性名称的数组，函数属性名称来自object对象自身可枚举属性。
-  function functions(object) {
-    let res = []
-    this.forOwn(object, (value, key) => {
-      if (this.isFunction(value)) {
-        res.push(key)
+  function functions(obj) {
+    var ary = []
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        if (typeof (obj[key]) == 'function') {
+          ary.push(key)
+        }
       }
-    })
-    return res
+    }
+    return ary
   }
   //get是对象的属性值返回的方法
   function get(obj, path, defalse) {
@@ -1063,10 +1065,12 @@ var lmz825 = function () {
     }
     return result
   }
-
+  function toPath(path) {
+    return Array.isArray(path) ? path : String(path).match(/\w+/g);
+  };
   //检查 path 是否是object对象的直接或继承属性。
   function has(obj, path) {
-    path = this.toPath(path)
+    path = toPath(path)
     for (let key of path) {
       if (!obj.hasOwnProperty(key)) {
         return false
@@ -1170,6 +1174,4 @@ var lmz825 = function () {
 
   }
 }()
-function toPath(path) {
-  return Array.isArray(path) ? path : String(path).match(/\w+/g);
-};
+
