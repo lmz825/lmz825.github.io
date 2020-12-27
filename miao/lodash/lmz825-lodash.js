@@ -106,23 +106,14 @@ var lmz825 = function () {
   }
   //工具 比较两个对象是否相同
   function DeepComparsion(obj1, obj2) {
-    let key1 = [];
-    let key2 = [];
-    for (let key in obj1) {
-      key1.push(key);
-    }
-    for (let key in obj2) {
-      key2.push(key);
-    }
-    if (key1.length !== key2.length) return false;
     for (key in obj1) {
-      if (typeof obj1[key] != "object" && typeof obj2[key] != "object") {
+      if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
         if (obj1[key] != obj2[key]) return false;
       } else {
         if (!DeepComparsion(obj1[key], obj2[key])) return false;
       }
     }
-    return t
+    return true;
   }
   function hasSameAttr(obj1, obj2) {
     for (key in obj1) {
@@ -986,7 +977,7 @@ var lmz825 = function () {
   }
   //分配来源对象的可枚举属性到目标对象所有解析为 undefined 的属性上。
   function defaults(obj, ...sources) {
-    let path = []
+    let path = {}
     for (var source of sources) {
       for (var i in source) {
         path[i] = source[i]
@@ -998,9 +989,9 @@ var lmz825 = function () {
     return path
   }
   //findKey
-  function findKey(obj, predicate = _.identity) {
+  function findKey(obj, predicate = identity) {
     predicate = paint(predicate)
-    for (var key of Object.keys(obj)) {
+    for (key in obj) {
       if (predicate(obj[key])) {
         return key
       }
@@ -1015,6 +1006,74 @@ var lmz825 = function () {
       }
     }
     return obj
+  }
+  //类似_.forIn。 除了它是反方向开始遍历object的。
+  function forInRight(object, predicate = _.identity) {
+    let key = []
+    predicate = paint(predicate)
+    for (let i in object) key.push(i)
+    for (let i = key.length - 1; i >= 0; i--) {
+      predicate(object[key[i]], key[i], object)
+    }
+    return object
+  }
+  //使用 iteratee 遍历自身的可枚举属性。 iteratee 会传入3个参数：(value, key, object)。 如果返回 false，iteratee 会提前退出遍历。
+  function forOwn(object, iteratee = this.identity) {
+    iteratee = paint(iteratee)
+    for (var i in object) {
+      if (object.hasOwnProperty(i)) {
+        let m = iteratee(object[i], i, object)
+        if (!m) break
+      }
+    }
+    return object
+  }
+  //_.forOwn。 除了它是反方向开始遍历object的。
+  function forOwnRight(object, iteratee = _.identity) {
+    iteratee = paint(iteratee)
+    let key = Object.keys(object)
+    for (var i = key.length - 1; i >= 0; i--) {
+      iteratee(object[key[i]], key[i], object)
+    }
+    return object
+  }
+  //创建一个函数属性名称的数组，函数属性名称来自object对象自身可枚举属性。
+  function functions(object) {
+    let res = []
+    this.forOwn(object, (value, key) => {
+      if (this.isFunction(value)) {
+        res.push(key)
+      }
+    })
+    return res
+  }
+  //get是对象的属性值返回的方法
+  function get(obj, path, defalse) {
+    let result = obj
+    if (typeof (path) === 'string') {
+      path = path.split(/\[|\]\.|\]\[|\.|\]/)
+    }
+    for (var i = 0; i < path.length; i++) {
+      if (path[i] !== '') {
+        result = result[path[i]]
+        if (result == undefined) {
+          return defalse
+        }
+      }
+    }
+    return result
+  }
+
+  //检查 path 是否是object对象的直接或继承属性。
+  function has(obj, path) {
+    path = this.toPath(path)
+    for (let key of path) {
+      if (!obj.hasOwnProperty(key)) {
+        return false
+      }
+      obj = obj[key]
+    }
+    return true
   }
   return {
     compact,
@@ -1102,5 +1161,15 @@ var lmz825 = function () {
     defaults,
     findKey,
     forIn,
+    forInRight,
+    forOwn,
+    forOwnRight,
+    functions,
+    get,
+    has,
+
   }
 }()
+function toPath(path) {
+  return Array.isArray(path) ? path : String(path).match(/\w+/g);
+};
