@@ -1123,20 +1123,87 @@ var lmz825 = function () {
     return obj;
   }
   //合并
-  function merge(object, sources) {
-
-    for (key in sources) {
-      if (typeof sources[key] == 'object') {
-        object[key] = merge(object[key], sources[key])
-      } else {
-        if (isArray(object)) {
-          object[key].push(sources[key])
+  function merge(object, ...sources) {
+    for (var i = 0; i < sources.length; i++) {
+      let a = sources[i]
+      for (var key in a) {
+        if (!key in object) {
+          object[key] = a[key]
         } else {
-          object[key] = sources[key]
+          var b = object[key]
+          var c = a[key]
+          if (typeof (b) == 'object' && (Array.isArray(b) && Array.isArray(c)) || (!Array.isArray(b) && !Array.isArray(c))) {
+            this.merge(b, c)
+          } else {
+            b = c
+          }
         }
       }
     }
     return object
+  }
+  //反向版_.pick;
+  function omit(object, props) {
+    let map = {}
+    for (var i in object) {
+      if (!props.includes(i)) {
+        map[i] = object[i]
+      }
+    }
+    return map
+  }
+  //pick
+  function pick(object, props) {
+    let map = {}
+    for (var i in object) {
+      if (props.includes(i)) {
+        map[i] = object[i]
+      }
+    }
+    return map
+  }
+  //这个方法类似_.get， 除了如果解析到的值是一个函数的话，就绑定 this 到这个函数并返回执行后的结果。
+  function result(object, path, defaultValue) {
+    let value = get(object, path, defaultValue)
+    if (isFunction(value)) {
+      return value()
+    }
+  }
+  //设置 object对象中对应 path 属性路径上的值，如果path不存在，则创建
+  function set(object, path, value) {
+    path = (typeof path === "string" ? path.match(/\w+/g) : path).map(it =>
+      Number(it) >= 0 ? +it : it
+    );
+    path.reduce((res, item, index) => {
+      if (index === path.length - 1) {
+        res[item] = value;
+      } else if (!res[item] && typeof path[index + 1] === "number") {
+        res[item] = [];
+      } else if (!res[item] && typeof path[index + 1] === "string") {
+        res[item] = {};
+      }
+      return res[item];
+    }, object);
+    return object;
+  }
+  //创建一个object对象自身可枚举属性的键值对数组
+  function toPairs(object) {
+    let path = []
+    for (var key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        let temp = []
+        temp.push(key, object[key])
+        path.push(temp)
+      }
+    }
+    return path
+  }
+  function values(object) {
+    return Object.values(object);
+  }
+  //转义string中的 "&", "<", ">", '"', "'", 和 "`" 字符为HTML实体字符。
+  function escape(str) {
+    return str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&apos;");
   }
   return {
     compact,
@@ -1236,6 +1303,13 @@ var lmz825 = function () {
     mapKeys,
     mapValues,
     merge,
+    omit,
+    pick,
+    result,
+    set,
+    toPairs,
+    values,
+    escape,
 
   }
 }()
