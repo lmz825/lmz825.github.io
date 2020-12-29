@@ -1205,6 +1205,68 @@ var lmz825 = function () {
   function escape(str) {
     return str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&apos;");
   }
+  //如果string字符串长度小于 length 则从左侧和右侧填充字符。 如果没法平均分配，则截断超出的长度。
+  function pad(string = '', length = 0, chars = ' ') {
+    let left = Math.floor(Math.ceil((length - string.length) / chars.length) / 2)
+    for (var i = 0; i < left; i++) {
+      string = chars + string
+    }
+    while (string.length < length) {
+      string += chars
+    }
+    string = string.slice(0, length)
+    return string
+  }
+  //如果string字符串长度小于 length 则在右侧填充字符。 如果超出length长度则截断超出的部分。
+  function padEnd(string, length = 0, chars = ' ') {
+    while (string.length < length) {
+      string += chars
+    }
+    string = string.slice(0, length)
+    return string
+  }
+  //如果string字符串长度小于 length 则在左侧填充字符。 如果超出length长度则截断超出的部分。
+  function padStart(string, length = 0, chars = ' ') {
+    var times = Math.ceil((length - string.length) / chars.length)
+    var left = ''
+    for (var i = 0; i < times; i++) {
+      left += chars
+    }
+    left = left.slice(0, length - string.length)
+    return left + string
+  }
+  //重复 N 次给定字符串。
+  function repeat(string = '', n = 1) {
+    let res = ''
+    for (var i = 0; i < n; i++) {
+      res = res + string
+    }
+    return res
+  }
+  //escape的反向版
+  function unescape(str = "") {
+    return str.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'");
+  }
+  //创建一个包含从 start 到 end，但不包含 end 本身范围数字的数组
+  function range(start = 0, end, step) {
+    if (end === undefined) {
+      end = start, start = 0
+    }
+    if (step === undefined) {
+      step = start > end ? -1 : 1
+    }
+    if (step === 0) {
+      return Array(Math.ceil(end - start)).fill(start)
+    }
+    let res = []
+    for (var i = start; end < start ? i > end : i < end;) {
+      res.push(i)
+      i += step
+    }
+    return res
+  }
+  //添加来源对象自身的所有可枚举函数属性到目标对象。 如果 object 是个函数，那么函数方法将被添加到原型链上
+
   return {
     compact,
     chunk,
@@ -1310,6 +1372,12 @@ var lmz825 = function () {
     toPairs,
     values,
     escape,
+    pad,
+    padEnd,
+    padStart,
+    repeat,
+    unescape,
+    range,
 
   }
 }()
