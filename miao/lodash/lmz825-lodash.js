@@ -1265,8 +1265,93 @@ var lmz825 = function () {
     }
     return res
   }
-  //添加来源对象自身的所有可枚举函数属性到目标对象。 如果 object 是个函数，那么函数方法将被添加到原型链上
+  //调用 iteratee n 次，每次调用返回的结果存入到数组中。
+  function times(n, iteratee = _.identity) {
+    let result = []
+    iteratee = paint(iteratee)
+    for (var i = 0; i < n; i++) {
+      result.push(iteratee(i))
+    }
+    return result
+  }
+  //这个方法类似_.clone，除了它会递归拷贝 value
+  function cloneDeep(value) {
+    if (typeof value !== "object" || typeof value === null || this.isRegExp(value)) return value;
+    let res = Array.isArray(value) ? [] : {};
+    for (let key in value) {
+      res[key] = this.cloneDeep(value[key])
+    }
+    return res
+  }
+  //这个方法返回首个提供的参数。
+  function identity(...values) {
+    return values[0]
+  }
+  //创建一个新数组，将array与任何数组 或 值连接在一起。
+  function concat(array, ...values) {
+    for (var i of values) {
+      if (Array.isArray(i)) {
+        array.push(...i)
+      } else {
+        array.push(i)
+      }
+    }
+    return array
+  }
+  //创建一个深比较的方法来比较给定的对象和 source 对象。 如果给定的对象拥有相同的属性值返回 true，否则返回 false。
+  function matches(source) {
+    return function (object) {
+      return isMatch(object, source)
+    }
+  }
+  //创建一个返回给定对象的 path 的值的函数。
+  function property(path) {
+    return obj => this.toPath(path).reduce((res, it) => res[it], obj)
+  }
+  //创建一个针对断言函数 func 结果取反的函数
+  function negate(predicate) {
+    return function (...args) {
+      return !predicate(...args)
+    }
+  }
+  //创建一个只能调用 func 一次的函数
+  function once(func) {
+    let flags = true
+    let res
+    return function (...args) {
+      if (flags) {
+        res = func(...args)
+        flags = false
+      }
+      return res
+    }
+  }
+  //创建一个函数，调用func时，this绑定到创建的新函数，把参数作为数组传入，
+  function spread(fun) {
+    return function (ary) {
+      return fun.apply(null, ary)
+    }
+  }
+  //创建一个会缓存 func 结果的函数。
+  function memoize(f) {
+    var map = {};
+    return function (args) {
+      if (args in map) {
+        return f(args)
+      } else {
+        map[args] = f[args];
+      }
 
+    }
+  }
+  //创建一个返回 value 的函数。
+  function constant(value) {
+    return () => value
+  }
+  //.property的反相版本。
+  function propertyOf(obj) {
+    return path => this.toPath(path).reduce((res, it) => res[it], obj);
+  }
   return {
     compact,
     chunk,
@@ -1378,6 +1463,18 @@ var lmz825 = function () {
     repeat,
     unescape,
     range,
+    times,
+    cloneDeep,
+    identity,
+    concat,
+    matches,
+    property,
+    negate,
+    once,
+    spread,
+    memoize,
+    constant,
+    propertyOf,
 
   }
 }()
