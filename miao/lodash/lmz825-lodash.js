@@ -43,15 +43,16 @@ var lmz825 = function () {
     return array.reverse()[0]
   }
   //类似_.indexOf ，区别是它是从右到左遍历array的元素。
-  function lastIndexOf(array, value, fromIndex = array.length - 1) {
-    var index = fromIndex + 1
-    while (index--) {
-      if (array[index] === value) {
-        return index
-        break
+  function lastIndexOf(ary, value, fromIndex = ary.length - 1) {
+    for (let i = fromIndex; i >= 0; i--) {
+      if (!value && !ary[i]) {
+        return i;
+      }
+      if (ary[i] == value) {
+        return i;
       }
     }
-    return index
+    return -1;
   }
   //反转array，使得第一个元素变为最后一个元素，第二个元素变为倒数第二个元素，依次类推。
   function reverse(array) {
@@ -97,6 +98,7 @@ var lmz825 = function () {
   //该方法类似_.find，区别是该方法返回第一个通过 predicate 判断为真值的元素的索引值（index），而不是元素本身。
 
   function findIndex(array, predicate, fromIndex = 0) {
+    predicate = paint(predicate)
     for (i = fromIndex; i < array.length; i++) {
       if (predicate(array[i])) {
         return i
@@ -209,6 +211,7 @@ var lmz825 = function () {
   }
   //所有都返回true才会返回true，哪怕有一个false，就会返回false
   function every(collection, predicate = _.identity) {
+    predicate = paint(predicate)
     var result = true
     for (let i = 0; i < collection.length; i++) {
       if (!predicate(collection[i])) {
@@ -221,6 +224,7 @@ var lmz825 = function () {
   //遍历 collection（集合）元素，返回 predicate（断言函数）返回真值 的所有元素的数组
   function filter(collection, predicate = _.identity) {
     var res
+    predicate = paint(predicate)
     if (Array.isArray(collection)) {
       res = [];
       if (!collection.length) {
@@ -245,6 +249,7 @@ var lmz825 = function () {
   //遍历 collection（集合）元素，返回 predicate（断言函数）第一个返回真值的第一个元素。
   function find(collection, predicate = _.identity) {
     var res
+    predicate = paint(predicate)
     if (Array.isArray(collection)) {
       res = [];
       if (!collection.length) {
@@ -787,6 +792,36 @@ var lmz825 = function () {
     }
     return false
   }
+  function mergeSort(ary, compare) {
+    if (ary.length < 2) {
+      return ary.slice()
+    }
+    var mid = ary.length >> 1
+    var left = ary.slice(0, mid)
+    var right = ary.slice(mid)
+
+    mergeSort(left, compare)
+    mergeSort(right, compare)
+
+    var i = 0
+    var j = 0
+    var k = 0
+
+    while (i < left.length && j < right.length) {
+      if (compare(left[i]) <= compare(right[j])) {
+        ary[k++] = left[i++]
+      } else {
+        ary[k++] = right[j++]
+      }
+    }
+    while (i < left.length) {
+      ary[k++] = left[i++]
+    }
+    while (j < right.length) {
+      ary[k++] = right[j++]
+    }
+    return ary
+  }
   function orderBy(collection, predicates = identity, orders) {
     var res = collection.slice()
     for (var i = predicates.length - 1; i >= 0; i--) {
@@ -878,8 +913,8 @@ var lmz825 = function () {
         var c = Object.keys(val).length
         var d = Object.keys(other).length
         if (c == d) {
-          for (var key in val) {
-            if (val[key] !== other[key]) {
+          for (var key in a) {
+            if (a[key] !== b[key]) {
               return false
             }
           }
@@ -989,13 +1024,12 @@ var lmz825 = function () {
     return path
   }
   //findKey
-  function findKey(obj, predicate = identity) {
+  function findKey(object, predicate = identity) {
     predicate = paintt(predicate)
-    for (key in obj) {
-      if (predicate(obj[key])) {
-        return key
-      }
+    for (let key of Object.keys(object)) {
+      if (predicate(object[key])) return key;
     }
+    return null;
   }
   //使用 iteratee 遍历对象的自身和继承的可枚举属性
   function forIn(obj, predicate = _.identity) {
@@ -1299,14 +1333,14 @@ var lmz825 = function () {
     return array
   }
   //创建一个深比较的方法来比较给定的对象和 source 对象。 如果给定的对象拥有相同的属性值返回 true，否则返回 false。
-  function matches(source) {
-    return function (object) {
-      return isMatch(object, source)
-    }
+  function matches(src) {
+    return bind(isMatch, null, window, src)
   }
   //创建一个返回给定对象的 path 的值的函数。
   function property(path) {
-    return obj => this.toPath(path).reduce((res, it) => res[it], obj)
+    return function (obj) {
+      return get(obj, path)
+    }
   }
   //创建一个针对断言函数 func 结果取反的函数
   function negate(predicate) {
