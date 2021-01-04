@@ -1386,6 +1386,30 @@ var lmz825 = function () {
   function propertyOf(obj) {
     return path => this.toPath(path).reduce((res, it) => res[it], obj);
   }
+  //这个方法类似_.difference ，除了它接受一个 comparator （注：比较器），它调用比较array，values中的元素
+  function differenceWith(array, ...args) {
+    let func = args[args.length - 1];
+    let arg = args[0];
+    let ans = [];
+    for (let i in array) {
+      if (!func(array[i], arg[i])) {
+        ans.push(array[i]);
+      }
+    }
+    return ans;
+  }
+  //创建一个切片数组，去除array中从 predicate 返回假值开始到尾部的部分。
+  function dropRightWhile(array, predicate) {
+    predicate = paint(predicate)
+    let res = array.slice()
+    for (var i = array.length - 1; i >= 0; i--) {
+      if (!predicate(array[i], i, array)) {
+        break
+      }
+      res.pop()
+    }
+    return res
+  }
   return {
     compact,
     chunk,
@@ -1509,6 +1533,8 @@ var lmz825 = function () {
     memoize,
     constant,
     propertyOf,
+    differenceWith,
+    dropRightWhile,
 
   }
 }()
