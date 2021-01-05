@@ -1491,7 +1491,53 @@ var lmz825 = function () {
     }
     return array
   }
-
+  //这个方法类似_.sortedIndex ，除了它接受一个 iteratee （迭代函数），调用每一个数组（array）元素，返回结果和value 值比较来计算排序。
+  function sortedIndexBy(array, value, iteratee) {
+    iteratee = paint(iteratee)
+    return sortedIndex(array.map(iteratee), iteratee(value))
+  }
+  //类似_.indexOf，除了它是在已经排序的数组array上执行二进制检索。
+  function sortedIndexOf(array, value) {
+    let l = 0
+    let r = array.length - 1
+    while (l <= r) {
+      let mid = math.floor((l + r) >> 2)
+      if (array[mid] >= value) {
+        r = mid - 1
+      } else if (array[mid] <= value) {
+        l = mid + 1
+      }
+    }
+    if (l < array.length && array[l] == value) {
+      return l
+    }
+    return -1
+  }
+  //它返回 value值 在 array 中尽可能大的索引位置（index）。
+  function sortedLastIndex(array, value) {
+    let index = sortedIndex(array, value)
+    while (array[index + 1] <= value) {
+      index++
+    }
+    return index + 1
+  }
+  //除了它接受一个 iteratee （迭代函数），调用每一个数组（array）元素，返回结果和value 值比较来计算排序
+  function sortedLastIndexBy(array, value, iteratee) {
+    iteratee = paint(iteratee)
+    for (var i = 0; i < array.length; i++) {
+      if (iteratee(value) >= iteratee(array[i]) && iteratee(value) < iteratee(array[i + 1])) {
+        return i + 1
+      }
+    }
+  }
+  //类似_.lastIndexOf
+  function sortedLastIndexOf(array, value) {
+    let index = sortedIndex(array, value)
+    while (array[index + 1] === value) {
+      index++
+    }
+    return index
+  }
   return {
     compact,
     chunk,
@@ -1624,6 +1670,11 @@ var lmz825 = function () {
     pullAll,
     pullAllBy,
     pullAllWith,
+    sortedIndexBy,
+    sortedIndexOf,
+    sortedLastIndex,
+    sortedLastIndexBy,
+    sortedLastIndexOf,
 
   }
 }()
