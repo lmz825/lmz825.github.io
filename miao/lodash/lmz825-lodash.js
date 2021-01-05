@@ -1410,6 +1410,88 @@ var lmz825 = function () {
     }
     return res
   }
+  //创建一个切片数组，去除array中从起点开始到 predicate 返回假值结束部分
+  function dropWhile(array, predicate) {
+    predicate = paint(predicate)
+    for (var i = 0; i < array.length; i++) {
+      if (predicate(array[i]) === false) {
+        return array.slice(i)
+      }
+    }
+  }
+  //类似_.intersection，区别是它接受一个 iteratee 调用每一个arrays的每个值以产生一个值，通过产生的值进行了比较
+  function intersectionBy(array, ...arguments) {
+    let predicate = arguments.pop()
+    predicate = paint(predicate)
+    let res = []
+    for (var i = 0; i < array.length; i++) {
+      for (var k = 0; k < arguments.length; k++) {
+        for (var j = 0; j < arguments[k].length; j++) {
+          if (predicate(array[i]) == predicate(arguments[k][j])) {
+            res.push(array[i])
+          }
+        }
+      }
+    }
+    return res
+  }
+  //这个方法类似_.intersection，区别是它接受一个 comparator 调用比较arrays中的元素。结果值是从第一数组中选择。
+  function intersectionWith(array, arrays, comparator) {
+    let result = []
+    let arr = this.flattenDeep(arrays)
+    for (let key of array) {
+      let arrlength = arr.length
+      while (arrlength--) {
+        if (comparator(key, arr[arrlength])) {
+          result.includes(key) ? result : result.push(key)
+        }
+      }
+    }
+    return result
+  }
+  //获取array数组的第n个元素。如果n为负数，则返回从数组结尾开始的第n个元素。
+  function nth(array, n) {
+    if (n > 0) {
+      return array[n]
+    } else {
+      return array[array.length + n]
+    }
+  }
+  //类似_.pull，区别是这个方法接收一个要移除值的数组。
+  function pullAll(array, values) {
+    let res = []
+    for (var i of array) {
+      if (values.indexOf(i) == -1) {
+        res.push(i)
+      }
+    }
+    return res
+  }
+  //似于_.pullAll ，区别是这个方法接受一个 iteratee（迭代函数） 调用 array 和 values的每个值以产生一个值，通过产生的值进行了比较
+  function pullAllBy(array, values, iteratee) {
+    iteratee = paint(iteratee)
+    let res = []
+    for (var i = 0; i < array.length; i++) {
+      for (var j = 0; j < values.length; j++) {
+        if (iteratee(array[i]) == iteratee(values[j])) {
+          res.push(array[i])
+        }
+      }
+    }
+    return pullAll(array, res)
+  }
+  //类似于_.pullAll，区别是这个方法接受 comparator 调用array中的元素和values比较
+  function pullAllWith(array, values, comparator) {
+    for (var i = 0; i < values.length; i++) {
+      for (var j = 0; j < array.length; j++) {
+        if (comparator(array[j], values[i])) {
+          array.splice(j, 1)
+        }
+      }
+    }
+    return array
+  }
+
   return {
     compact,
     chunk,
@@ -1535,6 +1617,13 @@ var lmz825 = function () {
     propertyOf,
     differenceWith,
     dropRightWhile,
+    dropWhile,
+    intersectionBy,
+    intersectionWith,
+    nth,
+    pullAll,
+    pullAllBy,
+    pullAllWith,
 
   }
 }()
