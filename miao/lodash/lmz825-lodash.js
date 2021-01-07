@@ -1501,7 +1501,7 @@ var lmz825 = function () {
     let l = 0
     let r = array.length - 1
     while (l <= r) {
-      let mid = math.floor((l + r) >> 2)
+      let mid = Math.floor((l + r) >> 2)
       if (array[mid] >= value) {
         r = mid - 1
       } else if (array[mid] <= value) {
@@ -1537,6 +1537,74 @@ var lmz825 = function () {
       index++
     }
     return index
+  }
+  //会优化排序数组。 返回一个新的不重复的数组。
+  function sortedUniq(array) {
+    let res = []
+    for (var i = 0; i < array.length - 1; i++) {
+      if (array[i] !== array[i + 1]) {
+        res.push(array[i])
+      }
+    }
+    return res
+  }
+  //sortedUniqBy
+  function sortedUniqBy(array, predicate = identity) {
+    let res = []
+    predicate = paint(predicate)
+    for (var i = 0; i < array.length - 1; i++) {
+      if (array[i] !== array[i + 1]) {
+        res.push(array[i])
+      }
+    }
+    return res
+  }
+  //获取除了array数组第一个元素以外的全部元素。
+  function tail(array) {
+    return arr.length ? arr.slice(1) : []
+  }
+  //创建一个数组切片，从array数组的起始元素开始提取n个元素。
+  function take(array, [n = 1]) {
+    return array.slice(0, n)
+  }
+  //创建一个数组切片，从array数组的最后一个元素开始提取n个元素。
+  function takeRight(array, [n = 1]) {
+    return array.length > n ? array.slice(array.length - n) : array
+  }
+  //从array数组的最后一个元素开始提取元素，直到 predicate 返回假值
+  function takeRightWhile(array, predicate) {
+    predicate = paint(predicate)
+    for (var i = array.length - 1; i >= 0; i--) {
+      if (!predicate(array[i], i, array)) {
+        return array.slice(i + 1)
+      }
+    }
+  }
+  //从array数组的起始元素开始提取元素，，直到 predicate 返回假值
+  function takeWhile(array, predicate) {
+    predicate = paint(predicate)
+    for (var i = 0; i < array.length; i++) {
+      if (!predicate(array[i], i, array)) {
+        return array.slice(0, i)
+      }
+    }
+  }
+  //类似_.union， 除了它接受一个 comparator 调用比较arrays数组的每一个元素。
+  function unionWith(...array) {
+    let comparator = array.pop()
+    array = [].concat(...array)
+    let res = []
+    for (let i = 0; i < array.length; i++) {
+      let flags = true
+      for (var val of res) {
+        if (comparator(val, array[i])) {
+          flags = false
+          break
+        }
+      }
+      if (flags) res.push(array[i])
+    }
+    return res
   }
   return {
     compact,
@@ -1675,7 +1743,14 @@ var lmz825 = function () {
     sortedLastIndex,
     sortedLastIndexBy,
     sortedLastIndexOf,
-
+    sortedUniq,
+    sortedUniqBy,
+    tail,
+    take,
+    takeRight,
+    takeRightWhile,
+    takeWhile,
+    unionWith,
   }
 }()
 
