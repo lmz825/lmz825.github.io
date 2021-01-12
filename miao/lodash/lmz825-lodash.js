@@ -1541,34 +1541,38 @@ var lmz825 = function () {
   //会优化排序数组。 返回一个新的不重复的数组。
   function sortedUniq(array) {
     let res = []
-    for (var i = 0; i < array.length - 1; i++) {
+    let i = 0
+    while (i < array.length) {
       if (array[i] !== array[i + 1]) {
         res.push(array[i])
       }
+      i++
     }
     return res
   }
   //sortedUniqBy
-  function sortedUniqBy(array, predicate = identity) {
+  function sortedUniqBy(array, predicate) {
     let res = []
     predicate = paint(predicate)
-    for (var i = 0; i < array.length - 1; i++) {
+    let i = 0
+    while (i < array.length) {
       if (array[i] !== array[i + 1]) {
         res.push(array[i])
       }
+      i++
     }
     return res
   }
   //获取除了array数组第一个元素以外的全部元素。
-  function tail(array) {
+  function tail(arr) {
     return arr.length ? arr.slice(1) : []
   }
   //创建一个数组切片，从array数组的起始元素开始提取n个元素。
-  function take(array, [n = 1]) {
+  function take(array, n = 1) {
     return array.slice(0, n)
   }
   //创建一个数组切片，从array数组的最后一个元素开始提取n个元素。
-  function takeRight(array, [n = 1]) {
+  function takeRight(array, n = 1) {
     return array.length > n ? array.slice(array.length - n) : array
   }
   //从array数组的最后一个元素开始提取元素，直到 predicate 返回假值
@@ -1605,6 +1609,79 @@ var lmz825 = function () {
       if (flags) res.push(array[i])
     }
     return res
+  }
+  //返回新的去重后的数组
+  function uniqWith(array, comparator) {
+    comparator = paint(comparator)
+    let res = []
+    for (let i of array) {
+      let flag = true
+      for (let k of res) {
+        if (comparator(i, k)) {
+          flag = false
+        }
+      }
+      if (flag) {
+        res.push(i)
+      }
+    }
+    return res
+  }
+  //返回重组元素的新数组
+  function unzipWith(array, iteratee) {
+    let arr = []
+    for (var i = 0; i < array[0].length; i++) {
+      arr.push(iteratee(array[array.length - 1][i], array[0][i]))
+    }
+    return arr
+  }
+  // 返回过滤值后的新数组。
+  function xorBy(...arrays) {
+    var arr = Array.from(arrays)
+    var fun = arr[arr.length - 1]
+    var iterator = paint(fun)
+    var restarr = arr.slice(0, arr.length - 1)
+    var res = restarr[0]
+    var tmp = restarr[0].map((val) => iterator(val))
+    for (var i = 1; i < restarr.length; i++) {
+      for (var j = 0; j < restarr[i].length; j++) {
+        var val = iterator(restarr[i][j])
+        if (!tmp.includes(val)) {
+          res.push(restarr[i][j])
+        } else {
+          var index = tmp.indexOf(val)
+          res.splice(index, 1)
+        }
+      }
+    }
+    return res
+  }
+  //xorWith
+  function xorWith(f, l, acton) {
+    acton = this.make(acton);
+    var result = [];
+    for (let i in f) {
+      for (let j in l) {
+        if (acton(f[i], l[j])) {
+          break;
+        }
+        if (!acton(f[i], l[j]) && j == l.length - 1) {
+          result.push(f[i]);
+        }
+      }
+    }
+
+    for (let i in l) {
+      for (let j in f) {
+        if (acton(l[i], f[j])) {
+          break;
+        }
+        if (!acton(l[i], f[j]) && j == f.length - 1) {
+          result.push(l[i]);
+        }
+      }
+    }
+    return result;
   }
   return {
     compact,
@@ -1751,6 +1828,11 @@ var lmz825 = function () {
     takeRightWhile,
     takeWhile,
     unionWith,
+    uniqWith,
+    unzipWith,
+    xorBy,
+    xorWith,
+
   }
 }()
 
