@@ -247,9 +247,9 @@ var lmz825 = function () {
     return res;
   }
   //遍历 collection（集合）元素，返回 predicate（断言函数）第一个返回真值的第一个元素。
-  function find(collection, predicate = _.identity) {
+  function find(collection, predicate) {
     var res
-    predicate = paint(predicate)
+    predicate = paintt(predicate)
     if (Array.isArray(collection)) {
       res = [];
       if (!collection.length) {
@@ -1556,7 +1556,7 @@ var lmz825 = function () {
     predicate = paint(predicate)
     let i = 0
     while (i < array.length) {
-      if (array[i] !== array[i + 1]) {
+      if (array[i] != array[i + 1]) {
         res.push(array[i])
       }
       i++
@@ -1658,7 +1658,7 @@ var lmz825 = function () {
   }
   //xorWith
   function xorWith(f, l, acton) {
-    acton = this.make(acton);
+    acton = paint(acton);
     var result = [];
     for (let i in f) {
       for (let j in l) {
@@ -1683,6 +1683,37 @@ var lmz825 = function () {
     }
     return result;
   }
+  //这个方法类似_.fromPairs，除了它接受2个数组，第一个数组中的值作为属性标识符（属性名），第二个数组中的值作为相应的属性值。
+  function zipObject(props, values) {
+    let obj = {}
+    for (var i = 0; i < props.length; i++) {
+      obj[props[i]] = values[i]
+    }
+    return obj
+  }
+  //它支持属性路径。
+  function zipObjectDeep(props, values) {
+    let obj = {}
+    for (var i = 0; i < props.length; i++) {
+      this.set(obj, props[i], values[i])
+    }
+    return obj
+  }
+  //接受一个 iteratee（迭代函数）
+  function zipWith(...array) {
+    let fuc = array.pop()
+    let res = []
+    for (var i = 0; i < array[0].length; i++) {
+      let path = []
+      for (var j = 0; j < array.length; j++) {
+        path.push(array[j][i])
+      }
+      let val = fuc(...path)
+      res.push(val)
+    }
+    return res
+  }
+
   return {
     compact,
     chunk,
@@ -1832,6 +1863,9 @@ var lmz825 = function () {
     unzipWith,
     xorBy,
     xorWith,
+    zipObject,
+    zipObjectDeep,
+    zipWith,
 
   }
 }()
